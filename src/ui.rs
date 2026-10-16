@@ -10995,20 +10995,62 @@ mod tests {
     #[test]
     fn a_flood_waits_in_the_connection_instead_of_in_memory() {
         use std::io::Write as _;
-        const LINES: usize = 40_000;
+        // While nobody takes messages, the connection may hold the queue
+        // (`INGRESS_LIMIT` lines) and what the socket buffers take, which
+        // differs by machine: Windows grows them past 8 MB on loopback. It
+        // must stop somewhere well short of this.
+        const AT_MOST: usize = 64 << 20;
+        // How long the server waits with nothing taken before it counts
+        // the connection as held back.
+        const QUIET: Duration = Duration::from_millis(1500);
+        // Lines the server adds once the connection is read again.
+        const MORE: usize = 5_000;
         let listener = std::net::TcpListener::bind("127.0.0.1:0").unwrap();
         let port = listener.local_addr().unwrap().port();
-        let finished = Arc::new(AtomicBool::new(false));
-        let done = finished.clone();
+        let (held_tx, held_rx) = mpsc::channel::<usize>();
+        let (total_tx, total_rx) = mpsc::channel::<usize>();
         let server = thread::spawn(move || {
             let (mut sock, _) = listener.accept().unwrap();
-            let mut flood = Vec::new();
-            for number in 0..LINES {
-                writeln!(flood, ":irc 372 me :{number:06} {}\r", "x".repeat(200)).unwrap();
+            sock.set_nonblocking(true).unwrap();
+            let line = |number: usize| {
+                format!(":irc 372 me :{number:06} {}\r\n", "x".repeat(200)).into_bytes()
+            };
+            let mut number = 0;
+            let mut written = 0;
+            let mut pending = Vec::new();
+            let mut taken = std::time::Instant::now();
+            let mut held_at = None;
+            loop {
+                if pending.is_empty() {
+                    if held_at.is_some_and(|at| number >= at + MORE) {
+                        break;
+                    }
+                    pending = line(number);
+                    number += 1;
+                }
+                match sock.write(&pending) {
+                    Ok(count) => {
+                        pending.drain(..count);
+                        written += count;
+                        taken = std::time::Instant::now();
+                        if held_at.is_none() && written > AT_MOST {
+                            // Taken without end: the test fails below.
+                            let _ = held_tx.send(written);
+                            break;
+                        }
+                    }
+                    Err(err) if err.kind() == std::io::ErrorKind::WouldBlock => {
+                        if held_at.is_none() && taken.elapsed() >= QUIET {
+                            held_at = Some(number);
+                            let _ = held_tx.send(written);
+                        }
+                        thread::sleep(Duration::from_millis(10));
+                    }
+                    Err(err) if err.kind() == std::io::ErrorKind::Interrupted => {}
+                    Err(_) => break,
+                }
             }
-            // 8 MB, far more than the socket buffers hold.
-            let _ = sock.write_all(&flood);
-            done.store(true, Ordering::Relaxed);
+            let _ = total_tx.send(if pending.is_empty() { number } else { 0 });
             thread::sleep(Duration::from_millis(500));
         });
         let config = Config::new("me", "me", "Me", Vec::new(), Vec::new());
@@ -11020,15 +11062,26 @@ mod tests {
             None,
             connection::ConnectOptions::default(),
         );
-        // Nobody takes messages for a while: the thread stops at the limit
-        // and the rest stays with the server.
-        thread::sleep(Duration::from_millis(1500));
-        assert!(!finished.load(Ordering::Relaxed), "the server is held back");
+        // Nobody takes messages: the thread stops at the limit, the socket
+        // buffers fill, and the rest stays with the server.
+        let held = held_rx
+            .recv_timeout(Duration::from_secs(120))
+            .expect("the server noticed the connection stop taking lines");
+        assert!(
+            held <= AT_MOST,
+            "the connection took {held} bytes with nobody reading"
+        );
         // Taking them lets everything through: each numbered line exactly
-        // once, in order.
-        let mut numbers = Vec::with_capacity(LINES);
+        // once, in order, up to the last the server wrote.
+        let mut numbers = Vec::new();
+        let mut total = None;
         let started = std::time::Instant::now();
-        while numbers.len() < LINES && started.elapsed() < Duration::from_secs(30) {
+        while total.is_none_or(|total| numbers.len() < total)
+            && started.elapsed() < Duration::from_secs(60)
+        {
+            if total.is_none() {
+                total = total_rx.try_recv().ok();
+            }
             match link.incoming.recv_timeout(Duration::from_secs(5)) {
                 Ok(NetMsg::Effect(effect)) => {
                     // As the window reads it: the events, else the lines.
@@ -11053,7 +11106,12 @@ mod tests {
                 Err(_) => break,
             }
         }
-        assert_eq!(numbers.len(), LINES, "every line arrived once");
+        let total = total.or_else(|| total_rx.recv_timeout(Duration::from_secs(5)).ok());
+        assert!(
+            total.is_some_and(|total| total > 0),
+            "the server wrote every line in full"
+        );
+        assert_eq!(Some(numbers.len()), total, "every line arrived once");
         // Nothing numbered comes after the last line: read on until the
         // server hangs up.
         loop {
@@ -11091,7 +11149,6 @@ mod tests {
             "{wrong:?} near {:?}",
             wrong.map(|(at, _)| &numbers[at.saturating_sub(2)..(at + 3).min(numbers.len())])
         );
-        assert!(finished.load(Ordering::Relaxed));
         link.stop.store(true, Ordering::Relaxed);
         drop(link);
         server.join().unwrap();

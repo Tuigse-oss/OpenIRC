@@ -463,8 +463,11 @@ mod tests {
         ];
         let mut keys = Vec::new();
         for source in sources {
+            // As the compiler reads it: a checkout with Windows line endings
+            // must give the same texts.
+            let source = source.replace("\r\n", "\n");
             for start in ["tr(", "trf(", "tr_key("] {
-                let mut rest = source;
+                let mut rest = source.as_str();
                 while let Some(at) = rest.find(start) {
                     // Only whole names: not `str(` or `attr(`.
                     let before = rest[..at].chars().next_back();
@@ -516,7 +519,7 @@ mod tests {
                 }
             }
             // `plural(count, "{0} user", "{0} users")`: the two texts.
-            let mut rest = source;
+            let mut rest = source.as_str();
             while let Some(at) = rest.find("plural(") {
                 rest = &rest[at + "plural(".len()..];
                 // Up to the call's own closing parenthesis.

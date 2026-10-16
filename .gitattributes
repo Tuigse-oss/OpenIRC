@@ -1,0 +1,4 @@
+# Sources, catalogs and scripts are read as they are stored, with LF
+# line endings, on every platform (the translation test reads the
+# sources, and scripts/check.sh runs under a shell).
+* text=auto eol=lf

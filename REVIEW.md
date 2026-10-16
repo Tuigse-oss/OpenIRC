@@ -1413,3 +1413,7 @@ Notes:
 - N2: keeping 256 changes again (the line queued across the netsplit was refused).
 
 All sixteen were caught.
+
+**First run of the upstream CI.** The Linux job (the whole of `scripts/check.sh`, benchmarks included) passed on the first run. The Windows job, the first time the tests ran on Windows itself, found two faults in the tests, not in the client:
+- `i18n::every_built_in_catalog_translates_every_text` reads the sources with `include_str!`, which keeps the line endings as checked out. Git on Windows checks out with CRLF, so a text continued over two lines no longer matched its catalog entry. The test now reads the sources as the compiler does (CRLF as LF), and `.gitattributes` keeps every checkout at LF.
+- `ui::a_flood_waits_in_the_connection_instead_of_in_memory` wrote 8 MB and expected the write to block. Windows grows its loopback buffers past that, and a Linux machine with a large `tcp_rmem` would too. The server side now writes without blocking until nothing has been taken for 1.5 s, and fails only if the connection takes more than 64 MB with nobody reading. The count of lines is then whatever was written, read back once and in order.
