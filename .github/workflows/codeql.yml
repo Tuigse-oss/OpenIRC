@@ -48,7 +48,7 @@ jobs:
           if [ "$private" = "true" ]; then
             echo "::notice::Code scanning needs a public repository or GitHub Advanced Security; nothing to do while private."
           fi
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         if: steps.available.outputs.private == 'false'
       - uses: github/codeql-action/init@v4
         if: steps.available.outputs.private == 'false'

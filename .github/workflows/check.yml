@@ -30,7 +30,7 @@ jobs:
     env:
       BENCH_TOLERANCE: 75
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: clippy, rustfmt
@@ -40,7 +40,7 @@ jobs:
         with:
           tool: cargo-audit,cargo-deny
       - name: Last benchmark results from main
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v6
         with:
           path: target/bench-baseline.txt
           key: bench-baseline-${{ github.run_id }}
@@ -48,14 +48,14 @@ jobs:
       - name: All checks
         run: scripts/check.sh
       - name: Keep the benchmark results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: benchmarks
           path: target/bench-latest.txt
       - name: These results are the next baseline
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: cp target/bench-latest.txt target/bench-baseline.txt
-      - uses: actions/cache/save@v4
+      - uses: actions/cache/save@v6
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         with:
           path: target/bench-baseline.txt
@@ -64,7 +64,7 @@ jobs:
   windows:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: clippy
