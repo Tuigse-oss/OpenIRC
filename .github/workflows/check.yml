@@ -1,6 +1,12 @@
 # Every push and pull request runs the same checks as scripts/check.sh:
 # formatting, clippy (Linux, Windows, with and without the bench feature),
 # the tests, RustSec through cargo audit and cargo deny, and the benchmarks.
+#
+# The benchmarks are compared with the last results from main, kept in the
+# Actions cache: a pull request that makes a benchmark more than
+# BENCH_TOLERANCE percent slower fails. A push to main that passes saves
+# its results as the next baseline. Runners differ from run to run, so the
+# tolerance here is wider than on a developer's machine.
 name: check
 
 on:
@@ -13,9 +19,16 @@ on:
 permissions:
   contents: read
 
+# A newer push to the same branch cancels the run still going.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   linux:
     runs-on: ubuntu-latest
+    env:
+      BENCH_TOLERANCE: 75
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
@@ -26,6 +39,12 @@ jobs:
       - uses: taiki-e/install-action@v2
         with:
           tool: cargo-audit,cargo-deny
+      - name: Last benchmark results from main
+        uses: actions/cache/restore@v4
+        with:
+          path: target/bench-baseline.txt
+          key: bench-baseline-${{ github.run_id }}
+          restore-keys: bench-baseline-
       - name: All checks
         run: scripts/check.sh
       - name: Keep the benchmark results
@@ -33,6 +52,14 @@ jobs:
         with:
           name: benchmarks
           path: target/bench-latest.txt
+      - name: These results are the next baseline
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: cp target/bench-latest.txt target/bench-baseline.txt
+      - uses: actions/cache/save@v4
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        with:
+          path: target/bench-baseline.txt
+          key: bench-baseline-${{ github.run_id }}
 
   windows:
     runs-on: windows-latest

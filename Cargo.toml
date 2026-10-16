@@ -29,4 +29,9 @@ name = "bench"
 required-features = ["bench"]
 
 [profile.release]
+# Line tables keep profiles (OPENIRC_PROFILE=1) and crash reports readable.
 debug = "line-tables-only"
+# One code unit and whole-program optimization: a slower build, faster
+# frames. The benchmarks in scripts/check.sh guard the effect.
+codegen-units = 1
+lto = "thin"

@@ -1,0 +1,36 @@
+# Dependabot keeps Cargo.lock and the workflow actions current. Security
+# updates come as soon as an advisory lands; version updates once a week,
+# with minor and patch bumps gathered into one pull request. Every pull
+# request still has to pass the whole gate (scripts/check.sh on Linux,
+# clippy and the tests on Windows, CodeQL) before it can be merged.
+version: 2
+updates:
+  - package-ecosystem: "cargo"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+    open-pull-requests-limit: 10
+    # A new release gets a few days to show its own regressions first.
+    cooldown:
+      default-days: 3
+    groups:
+      rust-minor-and-patch:
+        update-types: ["minor", "patch"]
+    labels: ["dependencies", "rust"]
+    commit-message:
+      prefix: "deps"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+    groups:
+      actions:
+        patterns: ["*"]
+    labels: ["dependencies", "ci"]
+    commit-message:
+      prefix: "ci"

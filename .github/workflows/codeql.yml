@@ -1,0 +1,62 @@
+# CodeQL scans the Rust sources and the workflow files for the patterns
+# GitHub's security queries know (injection, unsafe handling of input,
+# over-broad workflow permissions, …). Findings appear under Security,
+# Code scanning, and a pull request that adds one fails this check.
+#
+# Code scanning is available on public repositories (and on private ones
+# with GitHub Advanced Security). While the repository is private the
+# analysis steps are skipped and the check passes, so the workflow can be
+# required on main from the start and does its work as soon as the
+# repository is public.
+name: CodeQL
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: "23 7 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    name: Analyze (${{ matrix.language }})
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - language: rust
+            build-mode: none
+          - language: actions
+            build-mode: none
+    steps:
+      - name: Is code scanning available here?
+        id: available
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          private=$(gh api "repos/$GITHUB_REPOSITORY" --jq .private)
+          echo "private=$private" >> "$GITHUB_OUTPUT"
+          if [ "$private" = "true" ]; then
+            echo "::notice::Code scanning needs a public repository or GitHub Advanced Security; nothing to do while private."
+          fi
+      - uses: actions/checkout@v4
+        if: steps.available.outputs.private == 'false'
+      - uses: github/codeql-action/init@v4
+        if: steps.available.outputs.private == 'false'
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: ${{ matrix.build-mode }}
+          queries: security-extended
+      - uses: github/codeql-action/analyze@v4
+        if: steps.available.outputs.private == 'false'
+        with:
+          category: "/language:${{ matrix.language }}"
