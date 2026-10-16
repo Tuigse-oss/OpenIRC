@@ -1,4 +1,6 @@
-# Every push and pull request runs the same checks as scripts/check.sh:
+# Every push to main and every pull request runs the same checks as
+# scripts/check.sh (a branch with a pull request is checked once, as the
+# pull request, not again as a push):
 # formatting, clippy (Linux, Windows, with and without the bench feature),
 # the tests, RustSec through cargo audit and cargo deny, and the benchmarks.
 #
@@ -11,6 +13,7 @@ name: check
 
 on:
   push:
+    branches: [main]
   pull_request:
   # Weekly, so a new RustSec advisory shows up without a push.
   schedule:
