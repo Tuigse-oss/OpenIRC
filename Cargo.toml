@@ -15,7 +15,7 @@ ring = "0.17"
 encoding_rs = "0.8"
 socket2 = "0.6"
 regex = "1"
-rcgen = { version = "0.13", default-features = false, features = ["crypto", "pem", "ring"] }
+rcgen = { version = "0.14", default-features = false, features = ["crypto", "pem", "ring"] }
 
 [build-dependencies]
 winresource = "0.1"
