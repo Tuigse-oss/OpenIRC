@@ -4,10 +4,9 @@
 # Code scanning, and a pull request that adds one fails this check.
 #
 # Code scanning is available on public repositories (and on private ones
-# with GitHub Advanced Security). While the repository is private the
-# analysis steps are skipped and the check passes, so the workflow can be
-# required on main from the start and does its work as soon as the
-# repository is public.
+# with GitHub Advanced Security). Should the repository ever be private
+# without it, the analysis steps are skipped and the check passes, so the
+# required check on main does not block every pull request.
 name: CodeQL
 
 on:
