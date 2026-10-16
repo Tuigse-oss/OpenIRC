@@ -10,6 +10,10 @@
 #   scripts/bench-base.sh <commit> [<results file>]
 #
 # The results go to target/bench-baseline.txt unless another file is named.
+# With BENCH_ROUNDS=<n> the benchmarks run n times and the best time of
+# each is kept, as check.sh does for this version with the same variable:
+# a moment of contention on a shared runner then spoils one round, not
+# the comparison.
 # A commit that does not exist here (the first push, a scheduled run, a
 # force-push) leaves no results, and check.sh then runs without comparing.
 set -euo pipefail
@@ -51,5 +55,14 @@ echo "benchmarks of $(git -C "$base" log -1 --format='%h %s')"
 export CARGO_TARGET_DIR="$root/target/base"
 (cd "$base" && cargo build --release --features bench --example bench)
 mkdir -p "$(dirname "$results")"
-capped env XDG_CONFIG_HOME="$config" "$CARGO_TARGET_DIR/release/examples/bench" --save "$results"
-echo "saved as the results to compare with: $results"
+rounds=${BENCH_ROUNDS:-1}
+for round in $(seq 1 "$rounds"); do
+    capped env XDG_CONFIG_HOME="$config" "$CARGO_TARGET_DIR/release/examples/bench" \
+        --save "$base/round-$round.txt"
+done
+# The best time of each benchmark over the rounds.
+cat "$base"/round-*.txt | awk -F '\t' '
+    !($1 in best) || $2 + 0 < best[$1] { best[$1] = $2 + 0; order[++n] = $1 }
+    END { for (i = 1; i <= n; i++) if (!(order[i] in done)) { done[order[i]] = 1; printf "%s\t%s\n", order[i], best[order[i]] } }
+' > "$results"
+echo "saved as the results to compare with ($rounds round(s)): $results"

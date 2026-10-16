@@ -17,6 +17,8 @@
 # be read or does not list exactly the benchmarks that ran; with
 # BENCH_ALLOW_NEW=1 a benchmark the baseline does not know passes as new
 # (CI's baseline is the base commit, run first by scripts/bench-base.sh).
+# BENCH_ROUNDS=<n> runs the benchmarks n times and keeps the best time of
+# each, against a moment of contention on a shared machine (default 1).
 # Results go to target/ in the source tree, whatever CARGO_TARGET_DIR says.
 #
 # Offline machines: set CARGO_NET_OFFLINE=true and the advisory databases
@@ -121,7 +123,7 @@ if ! $quick; then
     fi
     cargo build --release --features bench --example bench
     capped env XDG_CONFIG_HOME="$config" cargo run --release --features bench --example bench -- \
-        --save "$latest" "${compare[@]}"
+        --save "$latest" --rounds "${BENCH_ROUNDS:-1}" "${compare[@]}"
     if $save_bench || [ ! -f "$baseline" ]; then
         cp "$latest" "$baseline"
         echo "benchmarks saved as the baseline in $baseline"

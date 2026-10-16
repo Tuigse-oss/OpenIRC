@@ -5,10 +5,12 @@
 # audit and cargo deny, and the benchmarks.
 #
 # The benchmarks are compared with the base of the change, built and run
-# on the same runner just before (scripts/bench-base.sh): a pull request
-# that makes a benchmark more than BENCH_TOLERANCE percent slower than
-# main fails. Results from another run are no use for this: shared runners
-# differ from each other by more than any change in the code.
+# on the same runner just before (scripts/bench-base.sh), the best of
+# three rounds on each side: a pull request that makes a benchmark more
+# than BENCH_TOLERANCE percent slower than main fails. Results from
+# another run are no use for this: shared runners differ from each other
+# by more than any change in the code, and even one runner has moments of
+# contention that double a short benchmark.
 name: check
 
 on:
@@ -46,10 +48,14 @@ jobs:
       - name: Benchmarks of the base, on this runner
         env:
           BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+          # The best of three rounds, on both sides: one moment of
+          # contention on the runner then spoils a round, not the result.
+          BENCH_ROUNDS: 3
         run: scripts/bench-base.sh "$BASE"
       - name: All checks
         env:
           BENCH_TOLERANCE: 50
+          BENCH_ROUNDS: 3
           # The base cannot know a benchmark this change adds.
           BENCH_ALLOW_NEW: 1
         run: scripts/check.sh

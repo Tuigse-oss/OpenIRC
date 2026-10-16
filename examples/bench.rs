@@ -16,6 +16,9 @@
 //!   of passing without a comparison.
 //! - `--tolerance <percent>` sets that limit (default 50). Timings move with
 //!   the machine's load, so the limit catches real slowdowns, not noise.
+//! - `--rounds <n>` runs every benchmark n times and keeps the best time of
+//!   each: a moment of contention on the machine then spoils one round,
+//!   not the result (default 1).
 //! - `--allow-new` lets a benchmark with no saved time pass as new instead
 //!   of failing the comparison, for saved results from an older version of
 //!   the code (CI benchmarks the base commit first). A saved benchmark that
@@ -35,6 +38,7 @@ fn main() -> ExitCode {
     let mut compare = None;
     let mut tolerance = 50.0_f64;
     let mut allow_new = false;
+    let mut rounds = 1_usize;
     let mut args = std::env::args().skip(1);
     while let Some(arg) = args.next() {
         let mut operand = || {
@@ -56,6 +60,19 @@ fn main() -> ExitCode {
                 Err(err) => return fail(&err),
             },
             "--allow-new" => allow_new = true,
+            "--rounds" => match operand().and_then(|value| {
+                value
+                    .trim()
+                    .parse::<usize>()
+                    .ok()
+                    .filter(|rounds| *rounds >= 1)
+                    .ok_or_else(|| {
+                        format!("the rounds `{value}` must be a whole number, 1 or more")
+                    })
+            }) {
+                Ok(value) => rounds = value,
+                Err(err) => return fail(&err),
+            },
             other => {
                 return fail(&format!(
                     "unknown option {other}; see the top of examples/bench.rs"
@@ -74,7 +91,17 @@ fn main() -> ExitCode {
         None => None,
     };
 
-    let results = openirc::bench::run();
+    // The best time of each benchmark over the rounds.
+    let mut results = openirc::bench::run();
+    for _ in 1..rounds {
+        for again in openirc::bench::run() {
+            if let Some(best) = results.iter_mut().find(|best| best.name == again.name)
+                && again.per_op() < best.per_op()
+            {
+                *best = again;
+            }
+        }
+    }
     let timings: Vec<(&str, f64)> = results
         .iter()
         .map(|result| (result.name, result.per_op().as_nanos() as f64))
