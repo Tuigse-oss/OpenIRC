@@ -13,6 +13,11 @@
 # contention that double a short benchmark.
 name: check
 
+# Third-party actions are pinned to a commit, with the release it is in a
+# comment: a tag can be moved to other code, a commit cannot. Dependabot
+# moves these pins to new releases like any other update. Actions from
+# GitHub itself (actions/*, github/*) keep their major-version tags.
+
 on:
   push:
     branches: [main]
@@ -37,12 +42,13 @@ jobs:
         with:
           # The base commit is built too.
           fetch-depth: 0
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8 # master
         with:
+          toolchain: stable
           components: clippy, rustfmt
           targets: x86_64-pc-windows-gnu
-      - uses: Swatinem/rust-cache@v2
-      - uses: taiki-e/install-action@v2
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+      - uses: taiki-e/install-action@8cca0918f8471c33515202b73f56ab27f2bed283 # v2.87.29
         with:
           tool: cargo-audit,cargo-deny
       - name: Benchmarks of the base, on this runner
@@ -73,10 +79,11 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8 # master
         with:
+          toolchain: stable
           components: clippy
-      - uses: Swatinem/rust-cache@v2
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
       - name: Clippy
         run: |
           cargo clippy --all-targets -- -D warnings
