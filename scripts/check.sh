@@ -14,8 +14,10 @@
 # RustSec through cargo audit and cargo deny, and the benchmarks, which fail
 # the run when one is slower than the baseline by more than BENCH_TOLERANCE
 # percent (default 50). The comparison fails, too, when the baseline cannot
-# be read or does not list exactly the benchmarks that ran. Results go to
-# target/ in the source tree, whatever CARGO_TARGET_DIR says.
+# be read or does not list exactly the benchmarks that ran; with
+# BENCH_ALLOW_NEW=1 a benchmark the baseline does not know passes as new
+# (CI's baseline is the base commit, run first by scripts/bench-base.sh).
+# Results go to target/ in the source tree, whatever CARGO_TARGET_DIR says.
 #
 # Offline machines: set CARGO_NET_OFFLINE=true and the advisory databases
 # already on disk are used instead of fetching them.
@@ -109,6 +111,11 @@ if ! $quick; then
     compare=()
     if [ -f "$baseline" ] && ! $save_bench; then
         compare=(--compare "$baseline" --tolerance "${BENCH_TOLERANCE:-50}")
+        # A baseline from an older version of the code (CI's, from the base
+        # commit) cannot know a benchmark added since.
+        if [ "${BENCH_ALLOW_NEW:-}" = 1 ]; then
+            compare+=(--allow-new)
+        fi
     elif [ ! -f "$baseline" ]; then
         echo "no baseline yet: this run's results become it, without a comparison"
     fi

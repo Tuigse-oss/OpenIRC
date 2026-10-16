@@ -1,14 +1,14 @@
 # Every push to main and every pull request runs the same checks as
 # scripts/check.sh (a branch with a pull request is checked once, as the
-# pull request, not again as a push):
-# formatting, clippy (Linux, Windows, with and without the bench feature),
-# the tests, RustSec through cargo audit and cargo deny, and the benchmarks.
+# pull request, not again as a push): formatting, clippy (Linux, Windows,
+# with and without the bench feature), the tests, RustSec through cargo
+# audit and cargo deny, and the benchmarks.
 #
-# The benchmarks are compared with the last results from main, kept in the
-# Actions cache: a pull request that makes a benchmark more than
-# BENCH_TOLERANCE percent slower fails. A push to main that passes saves
-# its results as the next baseline. Runners differ from run to run, so the
-# tolerance here is wider than on a developer's machine.
+# The benchmarks are compared with the base of the change, built and run
+# on the same runner just before (scripts/bench-base.sh): a pull request
+# that makes a benchmark more than BENCH_TOLERANCE percent slower than
+# main fails. Results from another run are no use for this: shared runners
+# differ from each other by more than any change in the code.
 name: check
 
 on:
@@ -30,10 +30,11 @@ concurrency:
 jobs:
   linux:
     runs-on: ubuntu-latest
-    env:
-      BENCH_TOLERANCE: 75
     steps:
       - uses: actions/checkout@v4
+        with:
+          # The base commit is built too.
+          fetch-depth: 0
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: clippy, rustfmt
@@ -42,27 +43,25 @@ jobs:
       - uses: taiki-e/install-action@v2
         with:
           tool: cargo-audit,cargo-deny
-      - name: Last benchmark results from main
-        uses: actions/cache/restore@v4
-        with:
-          path: target/bench-baseline.txt
-          key: bench-baseline-${{ github.run_id }}
-          restore-keys: bench-baseline-
+      - name: Benchmarks of the base, on this runner
+        env:
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: scripts/bench-base.sh "$BASE"
       - name: All checks
+        env:
+          BENCH_TOLERANCE: 50
+          # The base cannot know a benchmark this change adds.
+          BENCH_ALLOW_NEW: 1
         run: scripts/check.sh
       - name: Keep the benchmark results
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: benchmarks
-          path: target/bench-latest.txt
-      - name: These results are the next baseline
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: cp target/bench-latest.txt target/bench-baseline.txt
-      - uses: actions/cache/save@v4
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        with:
-          path: target/bench-baseline.txt
-          key: bench-baseline-${{ github.run_id }}
+          path: |
+            target/bench-baseline.txt
+            target/bench-latest.txt
+          if-no-files-found: ignore
 
   windows:
     runs-on: windows-latest

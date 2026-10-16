@@ -16,6 +16,10 @@
 //!   of passing without a comparison.
 //! - `--tolerance <percent>` sets that limit (default 50). Timings move with
 //!   the machine's load, so the limit catches real slowdowns, not noise.
+//! - `--allow-new` lets a benchmark with no saved time pass as new instead
+//!   of failing the comparison, for saved results from an older version of
+//!   the code (CI benchmarks the base commit first). A saved benchmark that
+//!   did not run still fails.
 
 use std::process::ExitCode;
 
@@ -30,6 +34,7 @@ fn main() -> ExitCode {
     let mut save = None;
     let mut compare = None;
     let mut tolerance = 50.0_f64;
+    let mut allow_new = false;
     let mut args = std::env::args().skip(1);
     while let Some(arg) = args.next() {
         let mut operand = || {
@@ -50,6 +55,7 @@ fn main() -> ExitCode {
                 Ok(value) => tolerance = value,
                 Err(err) => return fail(&err),
             },
+            "--allow-new" => allow_new = true,
             other => {
                 return fail(&format!(
                     "unknown option {other}; see the top of examples/bench.rs"
@@ -73,9 +79,11 @@ fn main() -> ExitCode {
         .iter()
         .map(|result| (result.name, result.per_op().as_nanos() as f64))
         .collect();
+    // Each result's change from the saved one; `None` with nothing saved, or
+    // for a benchmark that is new.
     let changes = match &saved {
-        Some(saved) => match benchcmp::changes(saved, &timings) {
-            Ok(changes) => changes.into_iter().map(Some).collect(),
+        Some(saved) => match benchcmp::changes_with(saved, &timings, allow_new) {
+            Ok(changes) => changes,
             Err(err) => return fail(&err),
         },
         None => vec![None; results.len()],
@@ -92,7 +100,11 @@ fn main() -> ExitCode {
             result.name,
             result.iterations,
             format!("{:.3?}", result.per_op()),
-            change.map_or(String::new(), |change| format!("{change:+.0}%")),
+            match (change, &saved) {
+                (Some(change), _) => format!("{change:+.0}%"),
+                (None, Some(_)) => "new".to_string(),
+                (None, None) => String::new(),
+            },
             result.note
         );
         written.push_str(&format!("{}\t{nanos}\n", result.name));
@@ -104,7 +116,7 @@ fn main() -> ExitCode {
         println!("saved to {path}");
     }
     if let Some(saved) = &saved {
-        let slower = match benchcmp::slower(saved, &timings, tolerance) {
+        let slower = match benchcmp::slower_with(saved, &timings, tolerance, allow_new) {
             Ok(slower) => slower,
             Err(err) => return fail(&err),
         };

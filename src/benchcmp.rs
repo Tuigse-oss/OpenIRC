@@ -52,12 +52,30 @@ pub fn parse_tolerance(text: &str) -> Result<f64, String> {
 /// order of `results`. Fails when a benchmark has no saved time or a saved
 /// one did not run, since then part of the run was never compared.
 pub fn changes(saved: &Saved, results: &[(&str, f64)]) -> Result<Vec<f64>, String> {
+    changes_with(saved, results, false).map(|changes| {
+        changes
+            .into_iter()
+            .map(|change| change.unwrap_or(0.0))
+            .collect()
+    })
+}
+
+/// `changes`, where with `allow_new` a benchmark that has no saved time is
+/// new rather than a fault: its change is `None`. This is for comparing
+/// with results of an older version of the code, which cannot know a
+/// benchmark added since. A saved benchmark that did not run still fails:
+/// it could otherwise be dropped unseen.
+pub fn changes_with(
+    saved: &Saved,
+    results: &[(&str, f64)],
+    allow_new: bool,
+) -> Result<Vec<Option<f64>>, String> {
     let missing: Vec<&str> = results
         .iter()
         .map(|(name, _)| *name)
         .filter(|name| !saved.contains_key(*name))
         .collect();
-    if !missing.is_empty() {
+    if !missing.is_empty() && !allow_new {
         return Err(format!(
             "no saved result for {}; save new results to compare with",
             missing.join(", ")
@@ -78,7 +96,11 @@ pub fn changes(saved: &Saved, results: &[(&str, f64)]) -> Result<Vec<f64>, Strin
     }
     Ok(results
         .iter()
-        .map(|(name, nanos)| (nanos - saved[*name]) / saved[*name] * 100.0)
+        .map(|(name, nanos)| {
+            saved
+                .get(*name)
+                .map(|before| (nanos - before) / before * 100.0)
+        })
         .collect())
 }
 
@@ -89,11 +111,21 @@ pub fn slower<'a>(
     results: &[(&'a str, f64)],
     tolerance: f64,
 ) -> Result<Vec<&'a str>, String> {
-    let changes = changes(saved, results)?;
+    slower_with(saved, results, tolerance, false)
+}
+
+/// `slower`, with new benchmarks allowed as in `changes_with`.
+pub fn slower_with<'a>(
+    saved: &Saved,
+    results: &[(&'a str, f64)],
+    tolerance: f64,
+    allow_new: bool,
+) -> Result<Vec<&'a str>, String> {
+    let changes = changes_with(saved, results, allow_new)?;
     Ok(results
         .iter()
         .zip(changes)
-        .filter(|(_, change)| *change > tolerance)
+        .filter(|(_, change)| change.is_some_and(|change| change > tolerance))
         .map(|((name, _), _)| *name)
         .collect())
 }
@@ -124,6 +156,38 @@ mod tests {
         for bad in ["NaN", "inf", "-1", "", "fifty"] {
             assert!(parse_tolerance(bad).is_err(), "{bad}");
         }
+    }
+
+    #[test]
+    fn a_new_benchmark_may_be_allowed_but_a_dropped_one_never() {
+        let saved = parse_saved("a\t100\nb\t100\n").unwrap();
+        // Allowed: the new one has no change, the others are compared.
+        assert_eq!(
+            changes_with(&saved, &[("a", 150.0), ("c", 1.0), ("b", 160.0)], true),
+            Ok(vec![Some(50.0), None, Some(60.0)])
+        );
+        assert_eq!(
+            slower_with(
+                &saved,
+                &[("a", 150.0), ("c", 1.0), ("b", 160.0)],
+                50.0,
+                true
+            ),
+            Ok(vec!["b"])
+        );
+        // Not allowed: as before.
+        assert!(
+            slower_with(
+                &saved,
+                &[("a", 150.0), ("c", 1.0), ("b", 160.0)],
+                50.0,
+                false
+            )
+            .is_err()
+        );
+        // A saved benchmark that did not run fails either way.
+        assert!(slower_with(&saved, &[("a", 100.0), ("c", 1.0)], 50.0, true).is_err());
+        assert!(slower_with(&saved, &[("a", 100.0)], 50.0, true).is_err());
     }
 
     #[test]
