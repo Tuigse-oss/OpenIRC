@@ -615,7 +615,7 @@ impl Settings {
             .write_all(encode_settings(self).as_bytes())
             .and_then(|()| file.sync_all());
         drop(file);
-        if let Err(err) = written.and_then(|()| fs::rename(&temp, path)) {
+        if let Err(err) = written.and_then(|()| replace_file(&temp, path)) {
             let _ = fs::remove_file(&temp);
             return Err(err);
         }
@@ -1633,9 +1633,34 @@ pub fn append_log_file(path: &std::path::Path, line: &str, max_bytes: u64) -> io
             .truncate(true)
             .open(&partial)?
             .write_all(kept.as_bytes())?;
-        fs::rename(&partial, path)?;
+        replace_file(&partial, path)?;
     }
     Ok(())
+}
+
+/// Put `from` in the place of `to`, whole: the old file is there until the
+/// new one is. On Windows a file that something else holds open for a
+/// moment (another copy of this program reading it, an indexer, a virus
+/// scanner) cannot be replaced just then, and the rename fails with
+/// "access denied" or a sharing violation; it is tried again for up to
+/// about a second before that counts as a failure.
+pub(crate) fn replace_file(from: &std::path::Path, to: &std::path::Path) -> io::Result<()> {
+    let mut wait = std::time::Duration::from_millis(1);
+    loop {
+        match fs::rename(from, to) {
+            Ok(()) => return Ok(()),
+            Err(err)
+                if cfg!(windows)
+                    && wait < std::time::Duration::from_millis(600)
+                    && (err.kind() == io::ErrorKind::PermissionDenied
+                        || err.raw_os_error() == Some(32)) =>
+            {
+                std::thread::sleep(wait);
+                wait *= 2;
+            }
+            Err(err) => return Err(err),
+        }
+    }
 }
 
 /// Every log under `dir`, including the network folders, sorted by path.
@@ -2068,6 +2093,29 @@ mod tests {
     }
 
     #[test]
+    fn replacing_a_file_keeps_the_old_one_until_the_new_one_is_there() {
+        let dir = std::env::temp_dir().join(format!("openirc-replace-{}", std::process::id()));
+        let _ = fs::remove_dir_all(&dir);
+        fs::create_dir_all(&dir).unwrap();
+        let path = dir.join("settings.txt");
+        let temp = dir.join("settings.tmp");
+        fs::write(&path, "old").unwrap();
+        fs::write(&temp, "new").unwrap();
+        replace_file(&temp, &path).unwrap();
+        assert_eq!(fs::read_to_string(&path).unwrap(), "new");
+        assert!(!temp.exists());
+        // A source that is not there fails at once, not after retries.
+        let started = std::time::Instant::now();
+        assert_eq!(
+            replace_file(&temp, &path).unwrap_err().kind(),
+            io::ErrorKind::NotFound
+        );
+        assert!(started.elapsed() < std::time::Duration::from_millis(500));
+        assert_eq!(fs::read_to_string(&path).unwrap(), "new");
+        let _ = fs::remove_dir_all(dir);
+    }
+
+    #[test]
     fn saves_at_the_same_time_each_leave_a_whole_file() {
         let dir = std::env::temp_dir().join(format!("openirc-race-{}", std::process::id()));
         let _ = fs::remove_dir_all(&dir);
@@ -2090,7 +2138,17 @@ mod tests {
                         // Every save works, however they overlap.
                         settings.save_to(&path).unwrap();
                         // What is there at any moment is one whole save.
-                        let now = fs::read_to_string(&path).unwrap();
+                        // (Windows may refuse to open a file for a moment
+                        // while another thread replaces it: try again.)
+                        let now = (0..50)
+                            .find_map(|_| {
+                                fs::read_to_string(&path)
+                                    .inspect_err(|_| {
+                                        std::thread::sleep(std::time::Duration::from_millis(5))
+                                    })
+                                    .ok()
+                            })
+                            .expect("the file can be read");
                         assert!(
                             (0..8).any(|other| now == expected(other)),
                             "a mixed or partial file"
