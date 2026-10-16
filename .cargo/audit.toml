@@ -1,0 +1,5 @@
+# cargo audit configuration. Keep in step with deny.toml.
+[advisories]
+# ttf-parser (unmaintained) reaches OpenIRC only through winit's Wayland
+# decorations; see deny.toml for the full reason.
+ignore = ["RUSTSEC-2026-0192"]

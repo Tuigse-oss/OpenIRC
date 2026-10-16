@@ -1,0 +1,50 @@
+# Every push and pull request runs the same checks as scripts/check.sh:
+# formatting, clippy (Linux, Windows, with and without the bench feature),
+# the tests, RustSec through cargo audit and cargo deny, and the benchmarks.
+name: check
+
+on:
+  push:
+  pull_request:
+  # Weekly, so a new RustSec advisory shows up without a push.
+  schedule:
+    - cron: "17 6 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy, rustfmt
+          targets: x86_64-pc-windows-gnu
+      - uses: Swatinem/rust-cache@v2
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-audit,cargo-deny
+      - name: All checks
+        run: scripts/check.sh
+      - name: Keep the benchmark results
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmarks
+          path: target/bench-latest.txt
+
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+      - uses: Swatinem/rust-cache@v2
+      - name: Clippy
+        run: |
+          cargo clippy --all-targets -- -D warnings
+          cargo clippy --all-targets --features bench -- -D warnings
+      - name: Tests
+        run: cargo test

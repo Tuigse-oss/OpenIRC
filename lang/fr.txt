@@ -1,0 +1,859 @@
+# OpenIRC: Français
+# Machine-assisted translation; corrections from native speakers are welcome.
+# One entry per line: the English text, a tab, the translation.
+@language	Français
+Query	Privé
+Whois	Whois
+Op	Op
+Deop	Retirer op
+Voice	Voice
+Devoice	Retirer voice
+Halfop	Halfop
+Owner	Propriétaire
+Kick	Expulser
+Ban	Bannir
+Except	Exception
+Ignore	Ignorer
+Not connected.	Non connecté.
+This is a preview of the channel window.	Ceci est un aperçu de la fenêtre de canal.
+Not connected: {0}	Non connecté : {0}
+Message from {0}	Message de {0}
+{0} invites you to {1}	{0} t'invite sur {1}
+Invite to {0}	Invitation sur {0}
+Now talking in {0}	Tu parles maintenant sur {0}
+{0} joins {1}	{0} rejoint {1}
+{0} ({1}) joins {2}	{0} ({1}) rejoint {2}
+{0} left {1} ({2})	{0} a quitté {1} ({2})
+{0} left {1}	{0} a quitté {1}
+{0} kicked {1} from {2} ({3})	{0} a expulsé {1} de {2} ({3})
+{0} kicked {1} from {2}	{0} a expulsé {1} de {2}
+Kicked from {0}	Expulsé de {0}
+by {0}: {1}	par {0} : {1}
+⇠ {0} quit ({1})	⇠ {0} est parti ({1})
+⇠ {0} quit	⇠ {0} est parti
+{0} quit ({1})	{0} a quitté IRC ({1})
+{0} quit	{0} a quitté IRC
+{0} is now {1}	{0} s'appelle maintenant {1}
+Topic is: {0}	Le sujet est : {0}
+{0} has no topic	{0} n'a pas de sujet
+{0} ({1}, {2} voiced)	{0} ({1}, {2} avec voice)
+{0} changes topic to: {1}	{0} change le sujet en : {1}
+{0} is online	{0} est en ligne
+{0} ({1}) is online	{0} ({1}) est en ligne
+{0} has left IRC	{0} a quitté IRC
+Notice from {0}	Notice de {0}
+{0} is away: {1}	{0} est absent : {1}
+{0} is back	{0} est de retour
+{0} offers DCC chat at {1}:{2}	{0} propose un chat DCC sur {1}:{2}
+Chat request from {0}	Demande de chat de {0}
+Open Tools, DCC to accept.	Ouvre Outils, DCC pour accepter.
+You are back.	Tu es de retour.
+Port must be a number from 1 to 65535.	Le port doit être un nombre de 1 à 65535.
+Server and nick are required.	Le serveur et le pseudo sont obligatoires.
+Connecting to {0}{1}	Connexion à {0}{1}
+Timer every {0}s, {1} times.	Minuteur toutes les {0} s, {1} fois.
+No dialog named {0}.	Aucune boîte de dialogue nommée {0}.
+Ignoring {0}. Options, Ignore lists all rules.	{0} est ignoré. Options, Ignorer liste toutes les règles.
+No longer ignoring {0}.	{0} n'est plus ignoré.
+Connect first; /debug shows one server's raw lines.	Connecte-toi d'abord ; /debug montre les lignes brutes d'un serveur.
+That server is not connected.	Ce serveur n'est pas connecté.
+Showing raw lines (-> sent, <- received) and script events; /debug off stops.	Affichage des lignes brutes (-> envoyées, <- reçues) et des événements de script ; /debug off l'arrête.
+Stopped showing raw lines.	Les lignes brutes ne sont plus affichées.
+Nobody to answer yet; use /msg <nick> <text>.	Personne à qui répondre pour l'instant ; utilise /msg <pseudo> <texte>.
+Settings were not saved: {0}	Les réglages n'ont pas été enregistrés : {0}
+Not connected. Choose File, then Connect.	Non connecté. Choisis Fichier, puis Se connecter.
+Disconnected. Gave up after {0} tries; use File, Connect to try again.	Déconnecté. Abandon après {0} essais ; Fichier, Se connecter pour réessayer.
+Disconnected. Trying again in {0} seconds	Déconnecté. Nouvel essai dans {0} secondes
+Ran perform for {0}.	Perform exécuté pour {0}.
+Could not add {0} to {1}: {2}	Impossible d'ajouter {0} à {1} : {2}
+Identd listening on port {0}.	Identd écoute sur le port {0}.
+Identd could not listen on port {0}: {1}	Identd n'a pas pu écouter sur le port {0} : {1}
+{0} has {1} bans; Channel central lists them.	{0} a {1} bannissements ; la Centrale du canal les liste.
+{0} has {1} exceptions; Channel central lists them.	{0} a {1} exceptions ; la Centrale du canal les liste.
+{0} has {1} invites; Channel central lists them.	{0} a {1} invitations ; la Centrale du canal les liste.
+(earlier lines are from the log)	(les lignes précédentes viennent du journal)
+{0} is typing…	{0} écrit…
+{0} and {1} are typing…	{0} et {1} écrivent…
+Several people are typing…	Plusieurs personnes écrivent…
+Many people opened queries at once; their messages are collected here for now.	Beaucoup de gens ont ouvert des privés en même temps ; leurs messages sont réunis ici pour l'instant.
+Reconnecting to {0}:{1}	Reconnexion à {0}:{1}
+Away from the keyboard	Loin du clavier
+Drop the file on a nick in the nick list, or in a query.	Dépose le fichier sur un pseudo de la liste, ou dans un privé.
+Updating the network list...	Mise à jour de la liste des réseaux...
+{0} networks from the directory.	{0} réseaux de l'annuaire.
+Network list: {0}	Liste des réseaux : {0}
+Network list update stopped.	Mise à jour de la liste des réseaux arrêtée.
+DCC chat with {0}	Chat DCC avec {0}
+Options saved.	Options enregistrées.
+Options	Options
+Connect	Connexion
+Messages	Messages
+Logging	Journal
+Notify	Notification
+Perform	Perform
+Colors	Couleurs
+Sounds	Sons
+Display	Affichage
+IRC	IRC
+Network	Réseau
+Highlight	Mise en évidence
+Nick colors	Couleurs des pseudos
+Auto modes	Modes automatiques
+DCC	DCC
+Users	Utilisateurs
+OK	OK
+Apply	Appliquer
+Cancel	Annuler
+Server	Serveur
+Port	Port
+Nick	Pseudo
+Alternative nick	Pseudo de secours
+Username	Nom d'utilisateur
+Real name	Nom réel
+Auto-join	Rejoindre automatiquement
+TLS	TLS
+Connect when OpenIRC starts	Se connecter au démarrage d'OpenIRC
+Port must be 1 to 65535.	Le port doit être compris entre 1 et 65535.
+Use a proxy	Utiliser un proxy
+Kind	Type
+Host	Hôte
+User	Utilisateur
+Password	Mot de passe
+SASL account	Compte SASL
+blank uses the nick	vide : le pseudo est utilisé
+SASL password	Mot de passe SASL
+Identd on port 113	Identd sur le port 113
+Ident user ID	Identifiant ident
+blank uses the IRC username	vide : le nom d'utilisateur IRC est utilisé
+Connecting and retrying	Connexion et nouvelles tentatives
+Give up connecting after	Abandonner la connexion après
+seconds	secondes
+Retry	Réessayer
+times (0 keeps trying)	fois (0 réessaie sans fin)
+Wait between tries	Attente entre les essais
+On a retry, try the next saved server of the same network	En cas de nouvel essai, prendre le serveur enregistré suivant du même réseau
+Use IRCv3 capabilities (away and account tracking, server times, typing, TLS upgrade)	Utiliser les capacités IRCv3 (suivi d'absence et de compte, heure du serveur, saisie, passage à TLS)
+Show joins and parts	Afficher les arrivées et départs
+Show timestamps	Afficher l'heure
+Reconnect after a dropped connection	Se reconnecter après une coupure
+Flood limits. Zero turns that limit off.	Limites anti-flood. Zéro désactive la limite.
+Messages from one nick	Messages d'un pseudo
+Joins in one channel	Arrivées sur un canal
+CTCP requests answered	Requêtes CTCP traitées
+New queries opened by others	Nouveaux privés ouverts par d'autres
+Past this, private messages from new people go to the Messages window.	Au-delà, les messages privés de nouvelles personnes vont dans la fenêtre Messages.
+Window in seconds	Fenêtre en secondes
+Ignore rules and highlight rules have their own pages.	Les règles d'ignorance et de mise en évidence ont leurs propres pages.
+Beep when a highlight word arrives	Bip quand un mot mis en évidence arrive
+Play a sound for incoming messages	Jouer un son pour les messages entrants
+Font size	Taille de police
+Dictionary file	Fichier de dictionnaire
+one word per line	un mot par ligne
+Web search address	Adresse de recherche web
+Underline unknown words in the input line as you type	Souligner les mots inconnus dans la ligne de saisie pendant la frappe
+That file does not exist.	Ce fichier n'existe pas.
+Log open windows	Journaliser les fenêtres ouvertes
+Each window is logged to its own file with a date and time on every line.	Chaque fenêtre est journalisée dans son propre fichier, avec la date et l'heure sur chaque ligne.
+Keep each network's logs in its own folder	Garder les journaux de chaque réseau dans leur propre dossier
+Keep color and style codes	Garder les codes de couleur et de style
+Log folder	Dossier des journaux
+New file every	Nouveau fichier chaque
+day	jour
+month	mois
+never (one file)	jamais (un seul fichier)
+Trim logs larger than	Réduire les journaux plus gros que
+KiB (0 never trims)	Kio (0 ne réduit jamais)
+Lines shown on reopening	Lignes montrées à la réouverture
+from the log when a channel or query opens	du journal quand un canal ou un privé s'ouvre
+Nicks to watch with MONITOR after connect (changes apply at once)	Pseudos à surveiller avec MONITOR après la connexion (les changements s'appliquent tout de suite)
+Remove	Retirer
+Add	Ajouter
+Commands run after this server finishes registering	Commandes exécutées quand ce serveur termine l'enregistrement
+blank for every server	vide pour tous les serveurs
+Command	Commande
+Monospace font in the transcript	Police à chasse fixe dans la conversation
+Language	Langue
+Menus and dialogs	Menus et boîtes de dialogue
+Same as the computer	Comme l'ordinateur
+More languages: put a translation file in {0}	Plus de langues : place un fichier de traduction dans {0}
+Nickname list	Liste des pseudos
+Right	Droite
+Left	Gauche
+Hidden	Masquée
+Transcript	Conversation
+Timestamp format	Format de l'heure
+shows {0}	affiche {0}
+HH, MM, and SS are replaced; for example [HH:MM:SS].	HH, MM et SS sont remplacés ; par exemple [HH:MM:SS].
+Mark the last line read when leaving a window	Marquer la dernière ligne lue en quittant une fenêtre
+Shade every other line	Ombrer une ligne sur deux
+Monospace font	Police à chasse fixe
+Color whole messages in the speaker's nick color	Colorer les messages entiers dans la couleur du pseudo de l'auteur
+Show the speaker's @ or + before the nick in messages	Afficher le @ ou + de l'auteur avant le pseudo dans les messages
+Text around nicks	Texte autour des pseudos
+nick	pseudo
+Leave out @ and + badges in the nick list	Ne pas afficher les badges @ et + dans la liste des pseudos
+Leave out # before channel names in the treebar	Ne pas afficher # avant les noms de canaux dans l'arborescence
+Order windows	Ordre des fenêtres
+by kind and name	par type et par nom
+as they open	dans l'ordre d'ouverture
+Notices and titles	Notifications et titres
+Show notices for highlights, private messages, and invites	Afficher des notifications pour les mises en évidence, messages privés et invitations
+Show the network name in the title bar	Afficher le nom du réseau dans la barre de titre
+Title bar text	Texte de la barre de titre
+Toolbar buttons	Boutons de la barre d'outils
+Tray	Zone de notification
+Minimize to the tray icon instead of the taskbar	Réduire dans la zone de notification plutôt que dans la barre des tâches
+Blink the tray icon while a highlight or private message waits	Faire clignoter l'icône tant qu'une mise en évidence ou un message privé attend
+No tray icon on this desktop, so these have no effect.	Pas d'icône de notification sur ce bureau, ces réglages sont donc sans effet.
+Connecting	Connexion
+Address order	Ordre des adresses
+IPv4 first	IPv4 d'abord
+IPv6 first	IPv6 d'abord
+As the system returns them	Comme le système les renvoie
+Connect from address	Se connecter depuis l'adresse
+blank lets the system choose	vide : le système choisit
+If that address cannot be used, connect anyway	Si cette adresse est inutilisable, se connecter quand même
+That is not an IP address.	Ce n'est pas une adresse IP.
+Listen on ports	Écouter sur les ports
+to	à
+0 uses any free port. Forward the range on your router to receive files.	0 utilise un port libre. Redirige la plage sur ton routeur pour recevoir des fichiers.
+My address in offers	Mon adresse dans les offres
+This computer's address	L'adresse de cet ordinateur
+The address the IRC server sees	L'adresse vue par le serveur IRC
+This address:	Cette adresse :
+Proxy	Proxy
+Use the proxy for	Utiliser le proxy pour
+servers	serveurs
+both	les deux
+Except these hosts	Sauf ces hôtes
+*.lan, 192.168.*	*.lan, 192.168.*
+The proxy itself is set on the Connect page.	Le proxy lui-même se règle sur la page Connexion.
+Identd	Identd
+System name	Nom du système
+Run identd only while connecting	Lancer identd uniquement pendant la connexion
+Events	Événements
+Short join, part, and quit lines	Lignes courtes d'arrivée, de départ et de déconnexion
+Hide PING and PONG	Masquer PING et PONG
+Skip the message of the day	Sauter le message du jour
+Remove colors and styles from incoming messages	Retirer couleurs et styles des messages entrants
+Channels	Canaux
+Show the channels list when a server connects	Afficher la liste des canaux quand un serveur se connecte
+Reopen the last session's channels and queries when connecting	Rouvrir les canaux et privés de la dernière session à la connexion
+Join again after being kicked	Revenir après une expulsion
+Join a channel when invited	Rejoindre un canal sur invitation
+Look up (whois) people who open a query	Consulter (whois) les personnes qui ouvrent un privé
+Collect private messages in one Messages window (open queries still get theirs)	Réunir les messages privés dans une fenêtre Messages (les privés ouverts reçoivent toujours les leurs)
+Show in the active window	Afficher dans la fenêtre active
+Notices	Notices
+CTCP	CTCP
+Invites	Invitations
+Away	Absent
+The rest goes to the server's status window.	Le reste va dans la fenêtre d'état du serveur.
+Set away when idle for	Passer absent après une inactivité de
+minutes (0 never)	minutes (0 jamais)
+Away reason	Motif d'absence
+Come back when I type again	Revenir quand je tape à nouveau
+Keep typed lines for the next session (never ones with passwords)	Garder les lignes tapées pour la prochaine session (jamais celles avec un mot de passe)
+Input	Saisie
+Multi-line input (Enter sends, Shift+Enter starts a new line)	Saisie sur plusieurs lignes (Entrée envoie, Maj+Entrée commence une nouvelle ligne)
+Command prefix	Préfixe de commande
+Starts a typed command; / always works too.	Commence une commande tapée ; / fonctionne toujours aussi.
+Command separator	Séparateur de commandes
+Splits commands in aliases, popups, events, and dialog buttons.	Sépare les commandes dans les alias, popups, événements et boutons de boîte de dialogue.
+Double-click and drop	Double-clic et dépôt
+Nick in the nick list	Pseudo dans la liste des pseudos
+Channel window	Fenêtre de canal
+Query window	Fenêtre de privé
+Status window	Fenêtre d'état
+File dropped on a window	Fichier déposé sur une fenêtre
+nothing	rien
+Typing	Saisie en cours
+Show who is typing	Montrer qui est en train d'écrire
+Let others see when I am typing	Laisser les autres voir quand j'écris
+Sending	Envoi
+Pace my messages so the server does not disconnect me for flooding	Espacer mes messages pour que le serveur ne me déconnecte pas pour flood
+Ask before pasting	Demander avant de coller
+lines or more (0 never asks)	lignes ou plus (0 ne demande jamais)
+Quit message	Message de départ
+OpenIRC version	Version d'OpenIRC
+Finger reply	Réponse finger
+your real name	ton nom réel
+WAV file for each event. Turn on sounds under Messages.	Fichier WAV pour chaque événement. Active les sons dans Messages.
+Play	Écouter
+No file chosen; the built-in beep is used.	Aucun fichier choisi ; le bip intégré est utilisé.
+{0} is not a PCM WAV file.	{0} n'est pas un fichier WAV PCM.
+Cannot read {0}: {1}	Impossible de lire {0} : {1}
+Favorites	Favoris
+No favorites yet.	Pas encore de favoris.
+Name	Nom
+blank uses the server name	vide : le nom du serveur est utilisé
+Save current server	Enregistrer le serveur actuel
+Address book	Carnet d'adresses
+You are told when these nicks come online or leave.	Tu es prévenu quand ces pseudos se connectent ou partent.
+Not seen online	Pas vu en ligne
+File	Fichier
+path of the file to send	chemin du fichier à envoyer
+Passive send (the other side listens)	Envoi passif (l'autre côté écoute)
+Offer chat	Proposer un chat
+Offer file	Proposer un fichier
+Incoming chat	Chat entrant
+None	Aucun
+Accept	Accepter
+Incoming files	Fichiers entrants
+Accept...	Accepter...
+Connecting DCC chat to {0}:{1}	Connexion du chat DCC à {0}:{1}
+DCC listen failed: {0}	Échec de l'écoute DCC : {0}
+Tray icon: {0}	Icône de notification : {0}
+Dialog editor	Éditeur de boîtes de dialogue
+New	Nouveau
+Type a new name without spaces	Tape un nouveau nom sans espaces
+No dialogs yet.	Pas encore de boîtes de dialogue.
+Dialog text	Texte de la boîte de dialogue
+Apply text	Appliquer le texte
+Delete dialog	Supprimer la boîte de dialogue
+Open	Ouvrir
+Same as /dialog name	Comme /dialog nom
+Pick or create a dialog first	Choisis ou crée d'abord une boîte de dialogue
+Drag controls to place them. Button commands may use $did(id).	Fais glisser les contrôles pour les placer. Les commandes de bouton peuvent utiliser $did(id).
+That text could not be read. The first line must be: dialog name {	Ce texte n'a pas pu être lu. La première ligne doit être : dialog nom {
+Profiler	Profileur
+Clear history	Effacer l'historique
+Typed lines ({0})	Lignes tapées ({0})
+Caught URLs ({0})	URL capturées ({0})
+Find text	Texte de recherche
+Channels list results ({0})	Résultats de la liste des canaux ({0})
+Messages window ({0} lines)	Fenêtre Messages ({0} lignes)
+Logs are kept; the Log files window deletes them.	Les journaux sont conservés ; la fenêtre Fichiers journaux les supprime.
+Clear	Effacer
+History cleared.	Historique effacé.
+About OpenIRC	À propos d'OpenIRC
+A native IRC client with the classic window layout.	Un client IRC natif avec la disposition classique des fenêtres.
+Connect, channels, queries, notify, favorites, aliases, logging, and DCC chat are wired to this window.	Connexion, canaux, privés, notification, favoris, alias, journal et chat DCC sont reliés à cette fenêtre.
+Message	Message
+Action	Action
+Notice	Notice
+Someone joins	Quelqu'un arrive
+Someone leaves	Quelqu'un part
+Someone quits	Quelqu'un quitte IRC
+Someone is kicked	Quelqu'un est expulsé
+Schemes	Thèmes
+Use the {0} colors	Utiliser les couleurs {0}
+Window colors. Changes show at once; OK or Apply keeps them.	Couleurs de la fenêtre. Les changements s'affichent tout de suite ; OK ou Appliquer les garde.
+Face (window chrome)	Surface (cadre de la fenêtre)
+Paper (text areas)	Papier (zones de texte)
+Ink (text on paper)	Encre (texte sur papier)
+Shadow (borders)	Ombre (bordures)
+Highlight (selection)	Surlignage (sélection)
+Attention (activity)	Attention (activité)
+Ink on Paper contrast is {0}:1; 4.5:1 or more reads well.	Le contraste Encre sur Papier est de {0}:1 ; 4,5:1 ou plus se lit bien.
+Classic colors	Couleurs classiques
+User levels	Niveaux d'utilisateur
+A script event such as on 10:TEXT runs only for people with level 10 or more; on friend:TEXT runs for people with the level friend. Levels are separated by commas.	Un événement de script comme on 10:TEXT ne s'exécute que pour les personnes de niveau 10 ou plus ; on friend:TEXT s'exécute pour les personnes du niveau friend. Les niveaux sont séparés par des virgules.
+Levels	Niveaux
+Nick or mask	Pseudo ou masque
+10,friend	10,friend
+nick or *!*@host	pseudo ou *!*@host
+Add user	Ajouter un utilisateur
+Everyone else has level	Tous les autres ont le niveau
+Message colors (color codes 0 to 15).	Couleurs des messages (codes de couleur 0 à 15).
+Standard message colors	Couleurs de message standard
+{0} user	{0} utilisateur
+{0} users	{0} utilisateurs
+{0} op	{0} op
+{0} ops	{0} ops
+Only operators change the topic	Seuls les opérateurs changent le sujet
+No messages from outside the channel	Pas de messages venant de l'extérieur du canal
+Invite only	Sur invitation seulement
+Moderated: only voiced users talk	Modéré : seuls les utilisateurs avec voice parlent
+Secret: hidden from the channels list	Secret : caché dans la liste des canaux
+Private	Privé
+Bans	Bannissements
+Exceptions	Exceptions
+Channel central — {0}	Centrale du canal — {0}
+Topic	Sujet
+Modes	Modes
+Key (+k)	Clé (+k)
+User limit (+l)	Limite d'utilisateurs (+l)
+Refresh	Actualiser
+The list is empty.	La liste est vide.
+by {0}	par {0}
+nick!user@host	nick!user@host
+Saved to {0}.	Enregistré dans {0}.
+Could not save: {0}	Enregistrement impossible : {0}
+Channels — {0}	Canaux — {0}
+Press Get list to see this server's channels, or type the channels to join in the box below.	Appuie sur Obtenir la liste pour voir les canaux de ce serveur, ou tape ci-dessous les canaux à rejoindre.
+Showing {0} ({1} users) of {2} channels so far. Double-click a channel to join it.	{0} affichés ({1} utilisateurs) sur {2} canaux pour l'instant. Double-clic sur un canal pour le rejoindre.
+Showing {0} ({1} users) of {2} channels. Double-click a channel to join it.	{0} affichés ({1} utilisateurs) sur {2} canaux. Double-clic sur un canal pour le rejoindre.
+Channel	Canal
+Join {0}	Rejoindre {0}
+Filter	Filtrer
+channel name	nom du canal
+in topics	dans les sujets
+Users from	Utilisateurs de
+0 has no limit	0 sans limite
+Join channels	Rejoindre les canaux
+Seconds between joins	Secondes entre les arrivées
+For networks that limit how fast you may join	Pour les réseaux qui limitent la vitesse à laquelle tu peux rejoindre
+Join	Rejoindre
+Listing…	Récupération…
+Get list	Obtenir la liste
+Save list	Enregistrer la liste
+Write the channels to a text file	Écrire les canaux dans un fichier texte
+Close	Fermer
+Show this when connecting	Afficher ceci à la connexion
+Disconnect	Se déconnecter
+Notify list	Liste de notification
+Join a channel	Rejoindre un canal
+Leave the channel	Quitter le canal
+Channels list	Liste des canaux
+Channel central	Centrale du canal
+Scripts editor	Éditeur de scripts
+Log files	Fichiers journaux
+URL list	Liste des URL
+Send a file	Envoyer un fichier
+Transfers	Transferts
+About	À propos
+Logging to {0}	Journal dans {0}
+Logging off.	Journal désactivé.
+Servers / connect...	Serveurs / connexion...
+Favorites...	Favoris...
+Certificates...	Certificats...
+Options...	Options...
+Exit	Quitter
+View	Affichage
+Treebar	Arborescence
+Switchbar	Barre des fenêtres
+Channels list...	Liste des canaux...
+URLs list	Liste des URL
+Address book...	Carnet d'adresses...
+Colors...	Couleurs...
+Monitor panel	Panneau de suivi
+Full screen	Plein écran
+Always on top	Toujours au premier plan
+Commands	Commandes
+Join channel...	Rejoindre un canal...
+Part channel	Quitter le canal
+Channel central...	Centrale du canal...
+Query user...	Ouvrir un privé...
+Send notice...	Envoyer une notice...
+Whois user...	Whois...
+Send CTCP	Envoyer un CTCP
+Version	Version
+Ping	Ping
+Time	Heure
+Finger	Finger
+Client info	Infos client
+Other...	Autre...
+Set away	Passer absent
+Away...	Absent...
+Back	De retour
+Invite user...	Inviter un utilisateur...
+Ban user...	Bannir un utilisateur...
+Kick user...	Expulser un utilisateur...
+Ignore user...	Ignorer un utilisateur...
+Unignore user...	Ne plus ignorer...
+Names	Noms
+Who	Who
+Hop	Ressortir et revenir
+Clear window	Vider la fenêtre
+Change nick...	Changer de pseudo...
+Quit IRC...	Quitter IRC...
+Tools	Outils
+Scripts editor...	Éditeur de scripts...
+Dialogs...	Boîtes de dialogue...
+Send file / chat...	Envoyer un fichier / chat...
+Transfers...	Transferts...
+Search all windows...	Chercher dans toutes les fenêtres...
+Log files...	Fichiers journaux...
+Clear history...	Effacer l'historique...
+Sounds...	Sons...
+Window	Fenêtre
+Next window	Fenêtre suivante
+Previous window	Fenêtre précédente
+Close window	Fermer la fenêtre
+Help	Aide
+Command list	Liste des commandes
+Connect to a server (Alt+E)	Se connecter à un serveur (Alt+E)
+Disconnect from this server	Se déconnecter de ce serveur
+Options (Alt+O)	Options (Alt+O)
+Favorites (Alt+J)	Favoris (Alt+J)
+Address book (Alt+B)	Carnet d'adresses (Alt+B)
+Leave this channel	Quitter ce canal
+Channels list (Alt+L)	Liste des canaux (Alt+L)
+Channel central: topic, modes, bans	Centrale du canal : sujet, modes, bannissements
+Scripts editor (Alt+R)	Éditeur de scripts (Alt+R)
+URL list (Alt+U)	Liste des URL (Alt+U)
+Send a file or start a DCC chat (Alt+S)	Envoyer un fichier ou démarrer un chat DCC (Alt+S)
+Colors (Alt+K)	Couleurs (Alt+K)
+Fixed-width font	Police à chasse fixe
+{0} — middle-click or right-click to close.	{0} — clic du milieu ou clic droit pour fermer.
+Not connected	Non connecté
+{0} on {1}	{0} sur {1}
+  ·  away: {0}	  ·  absent : {0}
+Connected	Connecté
+Connecting…	Connexion…
+Reconnecting…	Reconnexion…
+Disconnected	Déconnecté
+online {0}	en ligne {0}
+{0} lines queued	{0} lignes en attente
+{0} servers	{0} serveurs
+{0} timer	{0} minuteur
+{0} timers	{0} minuteurs
+Logs	Journaux
+any	tous
+Text	Texte
+find in logs	chercher dans les journaux
+Search	Chercher
+Show all	Tout afficher
+Logging is off; turn it on under Options, Logging.	Le journal est désactivé ; active-le dans Options, Journal.
+No logs.	Aucun journal.
+Choose a log on the left.	Choisis un journal à gauche.
+Rename	Renommer
+Delete for good	Supprimer définitivement
+Keep	Garder
+Delete	Supprimer
+Could not delete: {0}	Suppression impossible : {0}
+Use a plain file name, without folders.	Utilise un simple nom de fichier, sans dossiers.
+A log with that name already exists.	Un journal de ce nom existe déjà.
+Could not rename: {0}	Renommage impossible : {0}
+{0} log	{0} journal
+{0} logs	{0} journaux
+{0} line	{0} ligne
+{0} lines	{0} lignes
+Highlights	Mises en évidence
+Private messages	Messages privés
+Server messages	Messages du serveur
+F2 hides this panel	F2 masque ce panneau
+Nothing yet.	Rien pour l'instant.
+Double-click to go to this window	Double-clic pour aller à cette fenêtre
+Join channel	Rejoindre un canal
+Query user	Ouvrir un privé
+Send notice	Envoyer une notice
+Whois user	Whois
+Invite user	Inviter un utilisateur
+Ban user	Bannir un utilisateur
+Kick user	Expulser un utilisateur
+Ignore user	Ignorer un utilisateur
+Unignore user	Ne plus ignorer un utilisateur
+Change nick	Changer de pseudo
+Quit IRC	Quitter IRC
+Open query	Ouvrir le privé
+Send	Envoyer
+Invite	Inviter
+Unignore	Ne plus ignorer
+Change	Changer
+Quit	Quitter
+Enter {0}.	Saisis {0}.
+a channel	un canal
+a nick	un pseudo
+a nick or channel	un pseudo ou un canal
+the text	le texte
+the request	la requête
+a nick or mask	un pseudo ou un masque
+#channel, or several: #a,#b	#canal, ou plusieurs : #a,#b
+Key	Clé
+only for a channel with a key	seulement pour un canal avec clé
+optional	facultatif
+To	À
+nick or #channel	pseudo ou #canal
+Request	Requête
+such as VERSION or TIME	comme VERSION ou TIME
+Reason	Motif
+blank uses "away"	vide : "away" est utilisé
+nick, or nick!user@host	pseudo, ou nick!user@host
+Kick reason	Motif de l'expulsion
+blank bans without kicking	vide : bannir sans expulser
+New nick	Nouveau pseudo
+blank uses your quit message	vide : ton message de départ est utilisé
+Ask for {0}.	Demander {0}.
+Ignored:	Ignorés :
+No rules yet.	Pas encore de règles.
+Up	Monter
+Down	Descendre
+Highlight lines that mention my nick	Mettre en évidence les lignes qui citent mon pseudo
+Highlight rules	Règles de mise en évidence
+  in {0}	  dans {0}
+Pick a rule to edit it.	Choisis une règle pour la modifier.
+Regular expression	Expression régulière
+Only in	Seulement dans
+channels or nicks, blank for all	canaux ou pseudos, vide pour tous
+Look at	Regarder dans
+Match case	Respecter la casse
+Color	Couleur
+Sound	Son
+WAV file, blank for the highlight sound	Fichier WAV, vide pour le son de mise en évidence
+Flash the taskbar	Faire clignoter la barre des tâches
+Show a notice	Afficher une notification
+Ignore rules	Règles d'ignorance
+Masks are nick!user@host with * and ?; a bare nick covers all of that nick's addresses.	Les masques sont nick!user@host avec * et ? ; un pseudo seul couvre toutes ses adresses.
+ on {0}	 sur {0}
+ ({0} min left)	 (encore {0} min)
+Mask	Masque
+nick or nick!user@host	pseudo ou nick!user@host
+blank for every network	vide pour tous les réseaux
+Remove after	Retirer après
+minutes	minutes
+Set	Définir
+0 keeps it	0 le garde
+Give each nick its own color when no rule matches	Donner à chaque pseudo sa propre couleur quand aucune règle ne correspond
+Nickname color rules	Règles de couleur des pseudos
+The first matching rule wins.	La première règle qui correspond l'emporte.
+ with {0}	 avec {0}
+color {0}	couleur {0}
+blank for anyone; * and ? work	vide pour tout le monde ; * et ? fonctionnent
+Status	Statut
+@ for ops, + voice, * any, - none	@ pour les ops, + voice, * n'importe lequel, - aucun
+Automatic op, halfop, and voice	Op, halfop et voice automatiques
+Applied when someone matching joins a channel where you are an operator.	Appliqué quand quelqu'un qui correspond rejoint un canal où tu es opérateur.
+blank for all	vide pour tous
+Give	Donner
+op	op
+halfop	halfop
+voice	voice
+Give it back if someone takes it away	Le redonner si quelqu'un le retire
+Wait 2 to 6 seconds first, in case another operator does it	Attendre d'abord 2 à 6 secondes, au cas où un autre opérateur le ferait
+Scripts	Scripts
+Script files	Fichiers de script
+Quick aliases	Alias rapides
+Remotes	Remotes
+Popups	Popups
+Files (ticked ones run)	Fichiers (ceux cochés s'exécutent)
+Run this file	Exécuter ce fichier
+Remove this file when you save	Retirer ce fichier à l'enregistrement
+Run earlier	Exécuter plus tôt
+Run later	Exécuter plus tard
+File on disk	Fichier sur disque
+path to a .txt script	chemin vers un script .txt
+Load	Charger
+Add the file on disk as a new script file	Ajouter le fichier sur disque comme nouveau fichier de script
+Save to disk	Enregistrer sur disque
+Write this script file to the file on disk	Écrire ce fichier de script dans le fichier sur disque
+Save scripts	Enregistrer les scripts
+Scripts saved.	Scripts enregistrés.
+Not saved: fix the problems below first.	Non enregistré : corrige d'abord les problèmes ci-dessous.
+Revert	Revenir
+Unsaved changes	Modifications non enregistrées
+Running script error: {0}	Erreur du script en cours : {0}
+Find	Chercher
+Replace with	Remplacer par
+Next	Suivant
+“{0}” is not in this file.	« {0} » n'est pas dans ce fichier.
+Replace	Remplacer
+All	Tout
+Replace every match	Remplacer chaque occurrence
+Replaced {0}.	Remplacé : {0}.
+Line	Ligne
+Go	Aller
+There is no such line.	Cette ligne n'existe pas.
+Check	Vérifier
+Look for unbalanced brackets and syntax errors	Chercher les parenthèses déséquilibrées et les erreurs de syntaxe
+No problems found.	Aucun problème trouvé.
+Line {0}, column {1}	Ligne {0}, colonne {1}
+A quick alias runs when you type /name; its body is sent as a command.	Un alias rapide s'exécute quand tu tapes /nom ; son corps est envoyé comme commande.
+Body	Corps
+No quick aliases.	Pas d'alias rapides.
+A remote runs its body when an event (text, action, join, notice, ...) matches the mask.	Un remote exécute son corps quand un événement (text, action, join, notice, ...) correspond au masque.
+Event	Événement
+No remotes.	Pas de remotes.
+A popup is an item in a right-click menu. $nick is the person, $chan the channel.	Un popup est un élément d'un menu contextuel. $nick est la personne, $chan le canal.
+Menu	Menu
+Transcript line	Ligne de conversation
+Label	Libellé
+No popups.	Pas de popups.
+Could not read {0}: {1}	Impossible de lire {0} : {1}
+Loaded {0} as {1}. Tick it to run it, then Save.	{0} chargé sous le nom {1}. Coche-le pour l'exécuter, puis Enregistrer.
+Type a path first.	Saisis d'abord un chemin.
+Could not create {0}: {1}	Impossible de créer {0} : {1}
+Saved {0} to {1}.	{0} enregistré dans {1}.
+Could not write {0}: {1}	Impossible d'écrire {0} : {1}
+line {0}: {1} has no opening {2}	ligne {0} : {1} n'a pas de {2} ouvrant
+line {0}: {1} is never closed	ligne {0} : {1} n'est jamais fermé
+{0} match	{0} occurrence
+{0} matches	{0} occurrences
+Search all windows	Chercher dans toutes les fenêtres
+text to find	texte à chercher
+Servers	Serveurs
+My servers	Mes serveurs
+No saved servers yet. Pick a network below or fill in the form, then Save.	Pas encore de serveurs enregistrés. Choisis un réseau ci-dessous ou remplis le formulaire, puis Enregistrer.
+Network directory	Annuaire des réseaux
+Updating…	Mise à jour…
+Update	Mettre à jour
+Download the public network list from {0}	Télécharger la liste publique des réseaux depuis {0}
+Filter networks	Filtrer les réseaux
+{0} networks	{0} réseaux
+Edit server	Modifier le serveur
+New server	Nouveau serveur
+group, such as Libera.Chat	groupe, comme Libera.Chat
+Description	Description
+Address	Adresse
+Server password	Mot de passe du serveur
+usually empty	généralement vide
+Log in with	Se connecter avec
+Account	Compte
+blank uses {0}	vide : {0} est utilisé
+Alternative	Secours
+used when the nick is taken	utilisé quand le pseudo est pris
+Encoding	Encodage
+SASL with a certificate needs a client certificate (File, Certificates).	SASL avec certificat demande un certificat client (Fichier, Certificats).
+auto: UTF-8, reading other text as Windows-1252.	auto : UTF-8, le reste du texte est lu en Windows-1252.
+Save	Enregistrer
+Untrusted certificate	Certificat non approuvé
+The certificate of {0} could not be verified: it is {1}.	Le certificat de {0} n'a pas pu être vérifié : il est {1}.
+Many IRC servers use their own certificates. Trust it only if you know this is the server you meant to reach. OpenIRC will then accept exactly this certificate from this server, and ask again if it ever changes.	Beaucoup de serveurs IRC utilisent leurs propres certificats. Fais-lui confiance seulement si tu sais que c'est bien le serveur que tu voulais joindre. OpenIRC acceptera alors exactement ce certificat de ce serveur, et redemandera s'il change un jour.
+SHA-256 fingerprint	Empreinte SHA-256
+Trust and connect	Faire confiance et se connecter
+Certificates	Certificats
+This server	Ce serveur
+{0} is not using TLS.	{0} n'utilise pas TLS.
+My client certificate	Mon certificat client
+Used to log in with CertFP or SASL EXTERNAL. Register its fingerprint once with your network's services, for example /msg NickServ CERT ADD.	Sert à se connecter avec CertFP ou SASL EXTERNAL. Enregistre une fois son empreinte auprès des services de ton réseau, par exemple /msg NickServ CERT ADD.
+PEM file	Fichier PEM
+certificate and private key	certificat et clé privée
+Create a certificate	Créer un certificat
+Trusted server certificates	Certificats de serveur approuvés
+None.	Aucun.
+Could not create the certificate: {0}	Impossible de créer le certificat : {0}
+Refused {0} from {1}: that file type is not accepted (Options, DCC).	{0} de {1} refusé : ce type de fichier n'est pas accepté (Options, DCC).
+{0} offers {1}{2}	{0} propose {1}{2}
+Asked {0} to resume {1} at byte {2}.	{0} a été prié de reprendre {1} à l'octet {2}.
+The passive offer is missing its token.	Il manque le jeton de l'offre passive.
+Receiving {0} from {1}.	Réception de {0} de {1}.
+Sending {0} to {1}.	Envoi de {0} à {1}.
+Choose a nick and an existing file.	Choisis un pseudo et un fichier existant.
+Cannot read the file: {0}	Impossible de lire le fichier : {0}
+Offered {0} to {1} without listening.	{0} proposé à {1} sans écouter.
+Offered {0} to {1}.	{0} proposé à {1}.
+Sent {0} ({1}).	{0} envoyé ({1}).
+Saved {0} ({1}) to {2}.	{0} ({1}) enregistré dans {2}.
+{0}: cancelled.	{0} : annulé.
+The transfer ended.	Le transfert est terminé.
+Incoming file	Fichier entrant
+{0} offers {1} ({2}).	{0} propose {1} ({2}).
+Save to	Enregistrer dans
+Accept files from {0} without asking	Accepter les fichiers de {0} sans demander
+That file exists ({0}).	Ce fichier existe ({0}).
+Resume	Reprendre
+Ask the sender to continue from the end of the file	Demander à l'expéditeur de continuer depuis la fin du fichier
+Overwrite	Écraser
+Save as {0}	Enregistrer sous {0}
+Decline	Refuser
+Later	Plus tard
+Keep it in Tools, Send file / chat	Le garder dans Outils, Envoyer un fichier / chat
+Declined {0} from {1}.	{0} de {1} refusé.
+No transfers yet. Tools, Send file / chat offers a file.	Pas encore de transferts. Outils, Envoyer un fichier / chat propose un fichier.
+Show folder	Afficher le dossier
+Clear finished	Retirer les terminés
+Receiving files	Réception de fichiers
+Download folder	Dossier de téléchargement
+Never accept file types	Ne jamais accepter ces types de fichiers
+If the file already exists	Si le fichier existe déjà
+resume it	le reprendre
+overwrite it	l'écraser
+save under a new name	l'enregistrer sous un nouveau nom
+ask	demander
+Folders by file type (extensions separated by spaces; a relative folder is inside the download folder)	Dossiers par type de fichier (extensions séparées par des espaces ; un dossier relatif est dans le dossier de téléchargement)
+jpg png gif	jpg png gif
+Pictures	Images
+Add folder rule	Ajouter une règle de dossier
+Keep the computer awake while a transfer runs	Garder l'ordinateur éveillé pendant un transfert
+Trusted senders	Expéditeurs de confiance
+Accept files from these nicks or masks without asking, one per line	Accepter les fichiers de ces pseudos ou masques sans demander, un par ligne
+friend\nbot!*@trusted.example	ami\nbot!*@trusted.example
+private conversation	conversation privée
+server messages	messages du serveur
+No topic is set.	Aucun sujet.
+Double-click to edit the topic and modes	Double-clic pour modifier le sujet et les modes
+Ctrl+F	Ctrl+F
+{0} matching lines	{0} lignes correspondantes
+{0}, {1} voiced	{0}, {1} avec voice
+double-click for a query, right-click for more	double-clic pour un privé, clic droit pour plus
+Double-click for a query. Right-click for more.	Double-clic pour un privé. Clic droit pour plus.
+Logged in as {0}	Connecté en tant que {0}
+Away: {0}	Absent : {0}
+Copy line	Copier la ligne
+Search the web for “{0}”	Chercher « {0} » sur le web
+Fixed-width font here	Chasse fixe ici
+Message — Tab completes nicks, Ctrl+K for colors	Message — Tab complète les pseudos, Ctrl+K pour les couleurs
+Type a /command	Tape une /commande
+Connect before sending (/help lists commands)	Connecte-toi avant d'envoyer (/help liste les commandes)
+Insert a color (Ctrl+K)	Insérer une couleur (Ctrl+K)
+No suggestions	Aucune suggestion
+Add to the dictionary	Ajouter au dictionnaire
+Send several lines?	Envoyer plusieurs lignes ?
+You pasted {0} lines. Each one is sent as its own message.	Tu as collé {0} lignes. Chacune est envoyée comme un message à part.
+… and {0} more	… et {0} de plus
+Send {0} lines	Envoyer {0} lignes
+Nick list	Liste des pseudos
+Channel tab	Onglet de canal
+Query tab	Onglet de privé
+Status tab	Onglet d'état
+Classic	Classique
+Daylight	Jour
+Midnight	Minuit
+High contrast	Contraste élevé
+Show OpenIRC	Afficher OpenIRC
+OpenIRC: new activity	OpenIRC : nouvelle activité
+A file offered without listening cannot be resumed; save it under a new name or overwrite it.	Un fichier proposé sans écoute ne peut pas être repris ; enregistrez-le sous un autre nom ou écrasez-le.
+Cannot save {0}: {1}	Impossible d’enregistrer {0} : {1}
+{0} offered to resume {1} at byte {2} instead of {3}; the file was not changed.	{0} a proposé de reprendre {1} à l’octet {2} au lieu de {3} ; le fichier n’a pas été modifié.
+Cannot resume {0}: {1}	Impossible de reprendre {0} : {1}
+{0} asked to resume {1}, but a file offered without listening cannot be resumed.	{0} demande de reprendre {1}, mais un fichier proposé sans écoute ne peut pas être repris.
+{0} resumes {1} at byte {2}.	{0} reprend {1} à l’octet {2}.
+Disconnected.	Déconnecté.
+Disconnected: {0}	Déconnecté : {0}
+No font for {0} was found on this computer, so that text shows as boxes. Installing a font for it (for example Noto Sans) fixes this.	Aucune police pour {0} n’a été trouvée sur cet ordinateur ; ce texte s’affiche donc sous forme de carrés. Installer une police adaptée (par exemple Noto Sans) règle le problème.
+Could not write the log {0}: {1}	Impossible d’écrire le journal {0} : {1}
+Playing {0}.	Lecture de {0}.
+Deleted {0}.	{0} supprimé.
+Color {0}	Couleur {0}
+Chinese characters	Caractères chinois
+Japanese kana	Kana japonais
+Korean	Coréen
+Thai	Thaï
+Devanagari	Dévanagari
+Bengali	Bengali
+Gurmukhi	Gurmukhi
+Gujarati	Goudjarati
+Odia	Odia
+Tamil	Tamoul
+Telugu	Télougou
+Kannada	Kannada
+Malayalam	Malayalam
+Sinhala	Cingalais
+Searching the logs…	Recherche dans les journaux…
+Renamed.	Renommé.
+Deleted.	Supprimé.
+Script: commands are nested too deeply; stopped.	Script : commandes trop imbriquées ; arrêté.
+Script: too many commands at once; the rest were skipped.	Script : trop de commandes à la fois ; le reste a été ignoré.
+$nick is the nick, $chan the channel, $file the dropped file.	$nick est le pseudo, $chan le salon, $file le fichier déposé.
+Offered DCC chat. Waiting for the other side.	Chat DCC proposé. En attente de l’autre partie.
+The tray went away, so the window is back in the taskbar.	La zone de notification a disparu ; la fenêtre revient dans la barre des tâches.
+Add text	Ajouter un texte
+Add edit box	Ajouter un champ de saisie
+Add check box	Ajouter une case à cocher
+Add button	Ajouter un bouton
+{0} windows, {1} transcript lines	{0} fenêtres, {1} lignes de conversation
+{0} with “{1}”	{0} avec « {1} »
+{0} in {1}	{0} dans {1}
+from {0} — type /join {1}	de {0} — tapez /join {1}
+{0} asks for a secure connection; reconnecting with TLS on port {1}.	{0} demande une connexion sécurisée ; reconnexion en TLS sur le port {1}.
+Spell checking is off: {0} could not be read ({1}).	La vérification orthographique est désactivée : {0} n’a pas pu être lu ({1}).
+Done	Terminé
+Applied.	Appliqué.
+Saved.	Enregistré.
+A timer can wait at most a year.	Un minuteur peut attendre au plus un an.
+The window this was set in is closed, so a line was not sent.	La fenêtre où ceci a été programmé est fermée ; une ligne n’a pas été envoyée.
+The DCC chat ended.	Le chat DCC est terminé.
+The DCC chat with {0} has ended, so a line was not sent.	Le chat DCC avec {0} est terminé ; une ligne n’a pas été envoyée.
+The DCC chat with {0} connected after its server was closed; it was hung up.	Le chat DCC avec {0} s’est connecté après la fermeture de son serveur ; il a été raccroché.
+{0} is not keeping up, so a line was not sent.	{0} ne suit pas ; une ligne n’a pas été envoyée.
+The DCC chat this was meant for has ended, so a line was not sent.	Le chat DCC auquel ceci était destiné est terminé ; une ligne n’a pas été envoyée.
+{0} did not accept the DCC chat.	{0} n’a pas accepté le chat DCC.
+The DCC chat with {0} failed: {1}	Le chat DCC avec {0} a échoué : {1}
+The DCC chat with {0} failed.	Le chat DCC avec {0} a échoué.
+The new chat begins once the old chat's last lines are shown, so a line was not sent.	La nouvelle discussion commence une fois les dernières lignes de l’ancienne affichées ; une ligne n’a pas été envoyée.
+The chat in this window changed while you typed; press Enter again to send this to the new one.	La discussion de cette fenêtre a changé pendant la saisie ; appuyez de nouveau sur Entrée pour l’envoyer à la nouvelle.
+The person this answers changed while you typed; press Enter again to send this to the new one.	La personne à qui ceci répond a changé pendant la saisie ; appuyez de nouveau sur Entrée pour l’envoyer à la nouvelle.
+{0} left, so a line was not sent.	{0} est parti ; une ligne n’a pas été envoyée.
+{0} left while you typed; press Enter again to send this to whoever this window answers now.	{0} est parti pendant la saisie ; appuyez de nouveau sur Entrée pour l’envoyer à la personne à qui cette fenêtre répond maintenant.
+A /via target cannot start with “=”.	Une cible de /via ne peut pas commencer par « = ».

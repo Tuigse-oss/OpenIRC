@@ -1,0 +1,44 @@
+# cargo-deny policy for OpenIRC. Run: cargo deny check
+# The same RustSec database is used by `cargo audit`.
+
+[graph]
+all-features = false
+
+[advisories]
+# Every RustSec advisory fails the check except the ones listed here, each
+# with the reason it does not apply.
+ignore = [
+    # ttf-parser is unmaintained. It reaches OpenIRC only through winit's
+    # Wayland client-side decorations (winit -> sctk-adwaita -> ab_glyph).
+    # OpenIRC never parses fonts with it; egui uses its own font stack.
+    # Revisit when eframe/winit move off sctk-adwaita.
+    { id = "RUSTSEC-2026-0192", reason = "transitive via winit sctk-adwaita; not used by OpenIRC code" },
+]
+
+[licenses]
+confidence-threshold = 0.9
+allow = [
+    "MIT",
+    "Apache-2.0",
+    "Apache-2.0 WITH LLVM-exception",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "BSL-1.0",
+    "ISC",
+    "OFL-1.1",
+    "Ubuntu-font-1.0",
+    "Unicode-3.0",
+    "Zlib",
+    "CDLA-Permissive-2.0",
+]
+
+[bans]
+# Several GUI crates pull two major versions of the same helper; that is a
+# size cost, not a defect, so it is reported but does not fail the check.
+multiple-versions = "warn"
+wildcards = "deny"
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]
