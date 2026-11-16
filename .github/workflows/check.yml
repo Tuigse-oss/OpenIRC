@@ -38,7 +38,7 @@ jobs:
   linux:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           # The base commit is built too.
           fetch-depth: 0
@@ -52,6 +52,9 @@ jobs:
         with:
           tool: cargo-audit,cargo-deny
       - name: Benchmarks of the base, on this runner
+        # A scheduled run has no base commit to compare with: it is there
+        # for new advisories, and runs the benchmarks without a comparison.
+        if: github.event_name != 'schedule'
         env:
           BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
           # The best of three rounds, on both sides: one moment of
@@ -64,10 +67,16 @@ jobs:
           BENCH_ROUNDS: 3
           # The base cannot know a benchmark this change adds.
           BENCH_ALLOW_NEW: 1
-        run: scripts/check.sh
+          EVENT: ${{ github.event_name }}
+        run: |
+          if [ "$EVENT" = schedule ]; then
+            scripts/check.sh --save-bench
+          else
+            scripts/check.sh
+          fi
       - name: Keep the benchmark results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: benchmarks
           path: |
@@ -78,7 +87,7 @@ jobs:
   windows:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8 # master
         with:
           toolchain: stable
@@ -90,3 +99,33 @@ jobs:
           cargo clippy --all-targets --features bench -- -D warnings
       - name: Tests
         run: cargo test
+
+  report:
+    name: report a failed scheduled run
+    # A failed scheduled run only notifies whoever last edited its schedule,
+    # so open an issue (or comment on the one already open) to make the
+    # failure seen and tracked until it is fixed.
+    needs: [linux, windows]
+    if: failure() && github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Open or update the ci-failure issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          WORKFLOW: ${{ github.workflow }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          title="Scheduled $WORKFLOW run failed"
+          gh label create ci-failure --repo "$REPO" --color B60205 \
+            --description "A scheduled workflow run failed" 2>/dev/null || true
+          number=$(TITLE="$title" gh issue list --repo "$REPO" --state open --label ci-failure \
+            --json number,title --jq '[.[] | select(.title == $ENV.TITLE)][0].number // empty')
+          if [ -n "$number" ]; then
+            gh issue comment "$number" --repo "$REPO" --body "Failed again: $RUN_URL"
+          else
+            body=$(printf 'The scheduled **%s** workflow failed: %s\n\nClose this issue once it passes again.' "$WORKFLOW" "$RUN_URL")
+            gh issue create --repo "$REPO" --title "$title" --label ci-failure --body "$body"
+          fi
