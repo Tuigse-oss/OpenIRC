@@ -1,0 +1,18 @@
+Third-party notices for OpenIRC
+
+OpenIRC includes the open-source software below. Each license text is
+given once, after the list of the crates it covers. The bundled DejaVu
+fonts and the Rust standard library follow at the end.
+{{#each licenses}}
+
+============================================================================
+{{{name}}}
+============================================================================
+
+Used by:
+{{#each used_by}}
+  {{{crate.name}}} {{{crate.version}}}
+{{/each}}
+
+{{{text}}}
+{{/each}}

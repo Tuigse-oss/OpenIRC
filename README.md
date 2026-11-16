@@ -41,9 +41,18 @@ highlights and private messages.
 
 ## Install
 
-Releases are published on the
-[Releases](https://github.com/Tuigse-oss/OpenIRC/releases) page. Until
-then, build OpenIRC from source.
+On Windows, download `OpenIRC-v<version>-x86_64-windows.zip` from the
+[latest release](https://github.com/Tuigse-oss/OpenIRC/releases/latest),
+unzip it, and run `openirc.exe`; nothing is installed. On Linux, build it
+from source (below).
+
+The zip is not code-signed, so SmartScreen may warn about it. Check it
+against the release's `SHA256SUMS.txt` and its build provenance first:
+
+```powershell
+Get-FileHash .\OpenIRC-v0.1.0-x86_64-windows.zip   # compare with SHA256SUMS.txt
+gh attestation verify OpenIRC-v0.1.0-x86_64-windows.zip --repo Tuigse-oss/OpenIRC
+```
 
 ## Building
 

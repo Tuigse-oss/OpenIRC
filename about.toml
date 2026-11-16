@@ -1,0 +1,25 @@
+# Configuration for cargo-about, which writes THIRD-PARTY-NOTICES.txt for
+# release builds (scripts/third-party-notices.sh). The accepted licenses
+# match [licenses] in deny.toml; where a crate offers a choice, the first
+# accepted one in this list is used.
+accepted = [
+    "MIT",
+    "Apache-2.0",
+    "Apache-2.0 WITH LLVM-exception",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "BSL-1.0",
+    "ISC",
+    "Zlib",
+    "Unicode-3.0",
+    "OFL-1.1",
+    "Ubuntu-font-1.0",
+    "CDLA-Permissive-2.0",
+]
+# Releases are Windows builds.
+targets = ["x86_64-pc-windows-msvc"]
+ignore-build-dependencies = true
+ignore-dev-dependencies = true
+# cargo-about's own fixes for crates whose license files need help to be
+# read correctly.
+workarounds = ["ring", "rustls", "unicode-ident"]
