@@ -1,0 +1,16 @@
+name: Feature request
+description: An idea or improvement
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: The idea
+      description: What should OpenIRC do, and what problem does it solve for you?
+    validations:
+      required: true
+  - type: textarea
+    id: today
+    attributes:
+      label: How you do it today
+      description: Your workaround, if any.

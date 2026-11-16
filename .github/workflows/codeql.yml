@@ -47,7 +47,7 @@ jobs:
           if [ "$private" = "true" ]; then
             echo "::notice::Code scanning needs a public repository or GitHub Advanced Security; nothing to do while private."
           fi
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         if: steps.available.outputs.private == 'false'
       - uses: github/codeql-action/init@v4
         if: steps.available.outputs.private == 'false'
@@ -59,3 +59,33 @@ jobs:
         if: steps.available.outputs.private == 'false'
         with:
           category: "/language:${{ matrix.language }}"
+
+  report:
+    name: report a failed scheduled run
+    # A failed scheduled run only notifies whoever last edited its schedule,
+    # so open an issue (or comment on the one already open) to make the
+    # failure seen and tracked until it is fixed.
+    needs: [analyze]
+    if: failure() && github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Open or update the ci-failure issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          WORKFLOW: ${{ github.workflow }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          title="Scheduled $WORKFLOW run failed"
+          gh label create ci-failure --repo "$REPO" --color B60205 \
+            --description "A scheduled workflow run failed" 2>/dev/null || true
+          number=$(TITLE="$title" gh issue list --repo "$REPO" --state open --label ci-failure \
+            --json number,title --jq '[.[] | select(.title == $ENV.TITLE)][0].number // empty')
+          if [ -n "$number" ]; then
+            gh issue comment "$number" --repo "$REPO" --body "Failed again: $RUN_URL"
+          else
+            body=$(printf 'The scheduled **%s** workflow failed: %s\n\nClose this issue once it passes again.' "$WORKFLOW" "$RUN_URL")
+            gh issue create --repo "$REPO" --title "$title" --label ci-failure --body "$body"
+          fi
