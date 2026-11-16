@@ -44,15 +44,22 @@ highlights and private messages.
 On Windows, download `OpenIRC-v<version>-x86_64-windows.zip` from the
 [latest release](https://github.com/Tuigse-oss/OpenIRC/releases/latest),
 unzip it, and run `openirc.exe`; nothing is installed. On Linux, build it
-from source (below).
+from source (below). To remove OpenIRC, delete its folder. Its settings,
+and by default its logs and DCC downloads, are in `%APPDATA%\openirc` on
+Windows and `~/.config/openirc` on Linux, or in `$XDG_CONFIG_HOME/openirc`
+if that is set; delete that folder too to remove them.
 
-The zip is not code-signed, so SmartScreen may warn about it. Check it
-against the release's `SHA256SUMS.txt` and its build provenance first:
+`openirc.exe` is not code-signed yet, so SmartScreen may warn when you run
+it. Check the zip against the release's `SHA256SUMS.txt` and its build
+provenance first:
 
 ```powershell
 Get-FileHash .\OpenIRC-v0.1.0-x86_64-windows.zip   # compare with SHA256SUMS.txt
 gh attestation verify OpenIRC-v0.1.0-x86_64-windows.zip --repo Tuigse-oss/OpenIRC
 ```
+
+See the [code signing policy](#code-signing-policy) for how releases will
+be signed.
 
 ## Building
 
@@ -75,6 +82,23 @@ OpenIRC talks to servers and to other people's clients (DCC), so parsing,
 TLS and file handling are treated as security-relevant. To report a
 vulnerability, see [SECURITY.md](SECURITY.md). [REVIEW.md](REVIEW.md)
 records every review finding, its fix, and the test that covers it.
+
+## Code signing policy
+
+Free code signing provided by [SignPath.io](https://about.signpath.io), certificate by [SignPath Foundation](https://signpath.org).
+
+No release is signed yet. We are applying to SignPath Foundation, and this policy describes how signing will work once the project is accepted.
+
+Only copies of `openirc.exe` built by this repository's [release workflow](.github/workflows/release.yml) from a version tag will be signed, and a maintainer will approve each signing request before SignPath signs it. Nothing built elsewhere, and no third-party program, will be signed under this certificate.
+
+**Team roles**
+
+- Committers and reviewers: [Brad Williamson](https://github.com/bradwilliamson)
+- Approvers: [Brad Williamson](https://github.com/bradwilliamson)
+
+**Privacy policy**
+
+This program will not transfer any information to other networked systems unless specifically requested by the user or the person installing or operating it. OpenIRC connects to the IRC servers, proxies and DCC peers you choose. When you click **Update** in the network directory, it downloads a public list of IRC networks from raw.githubusercontent.com over HTTPS, not through your IRC proxy. Web links and searches open in your browser, and scripts you add can run commands for you. Its ident server is off unless you turn it on, and the program has no telemetry and never checks for updates to itself.
 
 ## License
 
