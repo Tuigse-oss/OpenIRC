@@ -277,7 +277,7 @@ impl OpenIrcApp {
             Command::PreviousWindow => self.cycle_window(-1),
             Command::CloseWindow => self.close_window(self.active),
             Command::Find => {
-                ctx.memory_mut(|memory| memory.request_focus(egui::Id::new("find-field")));
+                ctx.memory_mut(|memory| memory.request_focus(egui::Id::unique("find-field")));
             }
             Command::Help => self.dispatch("/help".into(), Origin::Script),
             Command::About => self.show_about = true,
@@ -1091,7 +1091,10 @@ const MENU_GUTTER: f32 = 14.0;
 
 /// The empty check-mark column, for rows and submenu headers.
 pub(super) fn menu_gutter() -> egui::Atom<'static> {
-    egui::Atom::custom(egui::Id::new("menu-gutter"), egui::vec2(MENU_GUTTER, 0.0))
+    egui::Atom::custom(
+        egui::IdSalt::new("menu-gutter"),
+        egui::vec2(MENU_GUTTER, 0.0),
+    )
 }
 
 /// One menu row: the check-mark column (ticked when `checked`), the label,

@@ -72,6 +72,9 @@ pub fn run(prefill: Option<Args>) -> eframe::Result {
         viewport,
         centered,
         persist_window: false,
+        // OpenIRC finds system fonts for scripts the bundled DejaVu faces
+        // lack itself (src/fonts.rs), so egui's own lookup stays off.
+        system_font_fallback: false,
         ..Default::default()
     };
     eframe::run_native(
@@ -284,6 +287,8 @@ fn theme(ctx: &egui::Context, font_size: f32) {
     ctx.all_styles_mut(|style| {
         style.spacing.item_spacing = egui::vec2(4.0, 2.0);
         style.spacing.button_padding = egui::vec2(8.0, 2.0);
+        // The height of a row of buttons, fields and menu entries.
+        style.spacing.interact_size.y = 18.0;
         style.spacing.window_margin = egui::Margin::same(4);
         style.spacing.menu_margin = egui::Margin::same(2);
         style.text_styles.insert(
@@ -7628,7 +7633,7 @@ impl OpenIrcApp {
                         );
                         let response = ui.interact(
                             rect,
-                            egui::Id::new(("dialog-control", dialog.name.clone(), control.id)),
+                            egui::Id::unique(("dialog-control", dialog.name.clone(), control.id)),
                             egui::Sense::click_and_drag(),
                         );
                         if response.drag_started() {
@@ -7767,7 +7772,7 @@ impl OpenIrcApp {
         let mut open = true;
         let mut command = None;
         egui::Window::new(&dialog.title)
-            .id(egui::Id::new(("live-dialog", &dialog.name)))
+            .id(egui::Id::unique(("live-dialog", &dialog.name)))
             .collapsible(false)
             .resizable([false, false])
             .default_pos(dialog_pos(ctx, 3))
@@ -8619,13 +8624,21 @@ fn nick_rank(nick: &str) -> u8 {
 
 /// A single-line text field drawn in the paper and ink colors.
 fn field(text: &mut String) -> egui::TextEdit<'_> {
-    egui::TextEdit::singleline(text).text_color(color_ink())
+    egui::TextEdit::singleline(text)
+        .text_color(color_ink())
+        .margin(FIELD_MARGIN)
 }
 
 /// A multi-line text field drawn in the paper and ink colors.
 fn field_multi(text: &mut String) -> egui::TextEdit<'_> {
-    egui::TextEdit::multiline(text).text_color(color_ink())
+    egui::TextEdit::multiline(text)
+        .text_color(color_ink())
+        .margin(FIELD_MARGIN)
 }
+
+/// Room around the text in a field. egui pads fields like buttons unless
+/// told otherwise; OpenIRC keeps them compact.
+const FIELD_MARGIN: egui::Margin = egui::Margin::symmetric(4, 2);
 
 /// One transcript line laid out for painting, with the character ranges of
 /// the URLs in it.
@@ -10130,7 +10143,7 @@ mod tests {
         let mut app = app();
         app.active = 1;
         frame(&ctx, &mut app, Vec::new());
-        ctx.memory_mut(|memory| memory.request_focus(egui::Id::new("input-line")));
+        ctx.memory_mut(|memory| memory.request_focus(egui::Id::unique("input-line")));
         frame(&ctx, &mut app, Vec::new());
         (ctx, app)
     }
@@ -10217,7 +10230,7 @@ mod tests {
         app.settings.multiline_input = true;
         app.active = 0;
         frame(&ctx, &mut app, Vec::new());
-        ctx.memory_mut(|memory| memory.request_focus(egui::Id::new("input-line")));
+        ctx.memory_mut(|memory| memory.request_focus(egui::Id::unique("input-line")));
         frame(&ctx, &mut app, Vec::new());
         frame(&ctx, &mut app, vec![egui::Event::Text("/echo one".into())]);
         frame(
@@ -10290,7 +10303,7 @@ mod tests {
         let (ctx, mut app) = focused_app();
         app.preview = false;
         app.active = 0;
-        ctx.memory_mut(|memory| memory.request_focus(egui::Id::new("input-line")));
+        ctx.memory_mut(|memory| memory.request_focus(egui::Id::unique("input-line")));
         frame(&ctx, &mut app, Vec::new());
         frame(
             &ctx,
@@ -10326,14 +10339,42 @@ mod tests {
             ..Default::default()
         };
         use eframe::App;
-        headless_frame(&ctx, input, |ui| app.ui(ui, &mut frame));
-        let rect = egui::containers::panel::PanelState::load(&ctx, egui::Id::new("client-nicks"))
-            .expect("the nick list panel was laid out")
-            .outer_rect;
-        assert!(rect.width() > 50.0, "nick list has no width: {rect:?}");
+        let mut output = ctx.run_ui(input, |ui| app.ui(ui, &mut frame));
+        output.textures_delta.clear();
+        // Where "zed" was painted, and the area it was clipped to: the
+        // nick list.
+        fn find(shape: &egui::Shape, clip: egui::Rect, found: &mut Vec<(egui::Rect, egui::Rect)>) {
+            match shape {
+                egui::Shape::Vec(shapes) => {
+                    for shape in shapes {
+                        find(shape, clip, found);
+                    }
+                }
+                egui::Shape::Text(text) if text.galley.text().trim() == "zed" => {
+                    found.push((text.galley.rect.translate(text.pos.to_vec2()), clip));
+                }
+                _ => {}
+            }
+        }
+        let mut found = Vec::new();
+        for clipped in &output.shapes {
+            find(&clipped.shape, clipped.clip_rect, &mut found);
+        }
+        let [(text, list)] = found[..] else {
+            panic!("the nick list should paint zed once: {found:?}");
+        };
+        assert!(list.width() > 50.0, "nick list has no width: {list:?}");
         assert!(
-            rect.right() <= 980.0 + 0.5,
-            "nick list ends off screen: {rect:?}"
+            list.right() <= 980.0 + 0.5,
+            "nick list ends off screen: {list:?}"
+        );
+        assert!(
+            list.left() > 490.0,
+            "nick list is not on the right: {list:?}"
+        );
+        assert!(
+            list.contains_rect(text),
+            "zed is cut off: {text:?} in {list:?}"
         );
     }
 
