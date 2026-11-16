@@ -13,6 +13,15 @@ ignore = [
     # OpenIRC never parses fonts with it; egui uses its own font stack.
     # Revisit when eframe/winit move off sctk-adwaita.
     { id = "RUSTSEC-2026-0192", reason = "transitive via winit sctk-adwaita; not used by OpenIRC code" },
+    # zbus 6 absorbed zvariant, zvariant_derive and zbus_names, so their
+    # older lines are marked unmaintained: not a vulnerability, and with no
+    # patched version. They reach OpenIRC only through egui's Linux
+    # screen-reader bridge (eframe -> egui-winit -> accesskit_winit ->
+    # accesskit_unix, AT-SPI over D-Bus), and even the newest accesskit_unix
+    # (0.24) still needs zbus 5. Revisit when accesskit moves to zbus 6.
+    { id = "RUSTSEC-2026-0370", reason = "zvariant merged into zbus 6; only via accesskit_unix, which still needs zbus 5" },
+    { id = "RUSTSEC-2026-0371", reason = "zbus_names merged into zbus 6; only via accesskit_unix, which still needs zbus 5" },
+    { id = "RUSTSEC-2026-0372", reason = "zvariant_derive merged into zbus 6; only via accesskit_unix, which still needs zbus 5" },
 ]
 
 [licenses]
