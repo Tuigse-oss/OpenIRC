@@ -164,7 +164,7 @@ impl OpenIrcApp {
             ui.label(tr("Find"));
             ui.add(
                 field(&mut self.find_text)
-                    .id(egui::Id::new("find-field"))
+                    .id(egui::Id::unique("find-field"))
                     .hint_text(tr("Ctrl+F"))
                     .desired_width(180.0),
             );
@@ -449,7 +449,7 @@ impl OpenIrcApp {
                     && ui
                         .interact(
                             below,
-                            egui::Id::new(("below", self.active)),
+                            egui::Id::unique(("below", self.active)),
                             egui::Sense::click(),
                         )
                         .double_clicked()
@@ -486,7 +486,7 @@ impl OpenIrcApp {
                         }
                         let response = ui.interact(
                             rect,
-                            egui::Id::new(("line", self.active, index)),
+                            egui::Id::unique(("line", self.active, index)),
                             egui::Sense::click(),
                         );
                         ui.painter()
@@ -576,7 +576,7 @@ impl OpenIrcApp {
     /// inserts a color code and opens the palette, and a paste of several
     /// lines asks before sending.
     fn input_line(&mut self, ui: &mut egui::Ui, font: f32) {
-        let id = egui::Id::new("input-line");
+        let id = egui::Id::unique("input-line");
         let focused = ui.memory(|memory| memory.has_focus(id));
         let multiline = self.settings.multiline_input;
         // In the multi-line input Enter sends and Shift+Enter starts a line.
@@ -915,7 +915,7 @@ impl OpenIrcApp {
     fn color_palette(&mut self, ui: &mut egui::Ui, anchor: &egui::Response, id: egui::Id) {
         let mut pick = None;
         let mut close = false;
-        egui::Area::new(egui::Id::new("color-palette"))
+        egui::Area::new(egui::Id::unique("color-palette"))
             .order(egui::Order::Foreground)
             .fixed_pos(anchor.rect.left_top() - egui::vec2(0.0, 74.0))
             .show(ui.ctx(), |ui| {
@@ -999,7 +999,7 @@ impl OpenIrcApp {
         let count = lines.len();
         let preview: String = lines.iter().take(4).cloned().collect::<Vec<_>>().join("\n");
         let mut decision = None;
-        egui::Modal::new(egui::Id::new("paste-confirm")).show(ctx, |ui| {
+        egui::Modal::new(egui::Id::unique("paste-confirm")).show(ctx, |ui| {
             ui.heading(tr("Send several lines?"));
             ui.label(trf(
                 "You pasted {0} lines. Each one is sent as its own message.",

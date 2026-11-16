@@ -56,7 +56,7 @@ impl OpenIrcApp {
         for (index, toast) in self.toasts.iter().enumerate().rev() {
             let age = toast.shown.elapsed().as_secs_f32();
             let fade = ((SHOW_FOR.as_secs_f32() - age) / 0.6).clamp(0.0, 1.0);
-            let area = egui::Area::new(egui::Id::new(("toast", index, toast.shown)))
+            let area = egui::Area::new(egui::Id::unique(("toast", index, toast.shown)))
                 .order(egui::Order::Foreground)
                 .pivot(egui::Align2::RIGHT_BOTTOM)
                 .fixed_pos(egui::pos2(screen.right() - 14.0, bottom))

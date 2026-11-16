@@ -306,7 +306,7 @@ impl OpenIrcApp {
 
     fn editor_toolbar(&mut self, ui: &mut egui::Ui, draft: &mut ScriptDraft) {
         let ctx = ui.ctx().clone();
-        let id = egui::Id::new(EDITOR_ID);
+        let id = egui::Id::unique(EDITOR_ID);
         let cursor = egui::text_edit::TextEditState::load(&ctx, id)
             .and_then(|state| state.cursor.char_range())
             .map(|range| {
@@ -566,7 +566,7 @@ impl OpenIrcApp {
 
 /// The text box with a line-number gutter, scrolled together.
 fn editor(ui: &mut egui::Ui, draft: &mut ScriptDraft) {
-    let id = egui::Id::new(EDITOR_ID);
+    let id = egui::Id::unique(EDITOR_ID);
     let font = egui::TextStyle::Monospace.resolve(ui.style());
     let row = ui.fonts_mut(|fonts| fonts.row_height(&font));
     let margin = egui::Margin::symmetric(4, 2);

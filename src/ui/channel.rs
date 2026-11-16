@@ -359,8 +359,7 @@ impl OpenIrcApp {
         let mut refresh: Option<char> = None;
         let lists = self.windows[window].mode_lists.clone();
         egui::Window::new(trf("Channel central — {0}", &[&central.channel]))
-            .id(egui::Id::new("channel-central"))
-            .id(egui::Id::new("channel-central"))
+            .id(egui::Id::unique("channel-central"))
             .collapsible(false)
             .resizable(true)
             .default_size([480.0, 460.0])
@@ -645,7 +644,7 @@ impl OpenIrcApp {
         let mut on_connect = self.settings.channels_on_connect;
         let list = &mut self.channel_list;
         egui::Window::new(title)
-            .id(egui::Id::new("channels-list"))
+            .id(egui::Id::unique("channels-list"))
             .collapsible(false)
             .resizable(true)
             .default_size([620.0, 460.0])

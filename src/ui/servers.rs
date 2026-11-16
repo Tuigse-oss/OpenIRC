@@ -348,7 +348,7 @@ impl OpenIrcApp {
             return;
         };
         let mut choice = None;
-        egui::Modal::new(egui::Id::new("trust-cert")).show(ctx, |ui| {
+        egui::Modal::new(egui::Id::unique("trust-cert")).show(ctx, |ui| {
             ui.set_max_width(460.0);
             ui.heading(tr("Untrusted certificate"));
             ui.label(trf(

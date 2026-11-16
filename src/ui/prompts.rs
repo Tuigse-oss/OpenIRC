@@ -284,7 +284,7 @@ impl OpenIrcApp {
             .map(|rule| rule.full_mask())
             .collect();
         egui::Window::new(prompt.kind.title())
-            .id(egui::Id::new("command-prompt"))
+            .id(egui::Id::unique("command-prompt"))
             .default_pos(dialog_pos(ctx, 8))
             .collapsible(false)
             .resizable([false, false])
